@@ -28,36 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            nodeControl1 = new NodeControl();
-            nodeControl2 = new NodeControl();
+            panelGraph = new Panel();
             SuspendLayout();
             // 
-            // nodeControl1
+            // panelGraph
             // 
-            nodeControl1.BackColor = Color.Transparent;
-            nodeControl1.BackgroundImageLayout = ImageLayout.None;
-            nodeControl1.CircleRadius = 10;
-            nodeControl1.Location = new Point(152, 208);
-            nodeControl1.Name = "nodeControl1";
-            nodeControl1.Size = new Size(20, 20);
-            nodeControl1.TabIndex = 0;
-            // 
-            // nodeControl2
-            // 
-            nodeControl2.BackColor = Color.Transparent;
-            nodeControl2.BackgroundImageLayout = ImageLayout.None;
-            nodeControl2.CircleRadius = 75;
-            nodeControl2.Location = new Point(178, 208);
-            nodeControl2.Name = "nodeControl2";
-            nodeControl2.Size = new Size(150, 150);
-            nodeControl2.TabIndex = 1;
+            panelGraph.AllowDrop = true;
+            panelGraph.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelGraph.AutoScroll = true;
+            panelGraph.BackColor = SystemColors.GradientActiveCaption;
+            panelGraph.BorderStyle = BorderStyle.Fixed3D;
+            panelGraph.Location = new Point(0, 0);
+            panelGraph.Name = "panelGraph";
+            panelGraph.Size = new Size(800, 450);
+            panelGraph.TabIndex = 2;
+            panelGraph.Paint += panelGraph_Paint;
             // 
             // GraphDisplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(nodeControl2);
-            Controls.Add(nodeControl1);
+            Controls.Add(panelGraph);
             DoubleBuffered = true;
             Name = "GraphDisplay";
             Size = new Size(800, 450);
@@ -66,7 +57,6 @@
 
         #endregion
 
-        private NodeControl nodeControl1;
-        private NodeControl nodeControl2;
+        private Panel panelGraph;
     }
 }

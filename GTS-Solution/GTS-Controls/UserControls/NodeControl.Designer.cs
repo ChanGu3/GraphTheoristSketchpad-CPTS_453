@@ -45,7 +45,7 @@
             MouseDown += NodeControl_MouseDown;
             MouseEnter += NodeControl_MouseEnter;
             MouseLeave += NodeControl_MouseLeave;
-            MouseHover += NodeControl_MouseHover;
+            MouseMove += NodeControl_MouseMove;
             MouseUp += NodeControl_MouseUp;
             ResumeLayout(false);
         }
