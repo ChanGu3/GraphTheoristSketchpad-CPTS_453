@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTS-Form", "GTS-Form\GTS-Form.csproj", "{87C8C9FB-73D2-4C40-BB45-6B1E5E1B6C54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTS_GraphEngine", "GTS_GraphEngine\GTS_GraphEngine.csproj", "{47DA6331-FF65-48F0-8646-02CDF8DE6FEF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FB0FC525-1B5E-447C-886B-A7375598644D}"
+	ProjectSection(SolutionItems) = preProject
+		ico images\Graph.ico = ico images\Graph.ico
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTS-Controls", "GTS-Controls\GTS-Controls.csproj", "{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87C8C9FB-73D2-4C40-BB45-6B1E5E1B6C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C8C9FB-73D2-4C40-BB45-6B1E5E1B6C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C8C9FB-73D2-4C40-BB45-6B1E5E1B6C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C8C9FB-73D2-4C40-BB45-6B1E5E1B6C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47DA6331-FF65-48F0-8646-02CDF8DE6FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47DA6331-FF65-48F0-8646-02CDF8DE6FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47DA6331-FF65-48F0-8646-02CDF8DE6FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47DA6331-FF65-48F0-8646-02CDF8DE6FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
