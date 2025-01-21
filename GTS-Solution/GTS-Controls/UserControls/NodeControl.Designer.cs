@@ -38,9 +38,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
             BackgroundImageLayout = ImageLayout.None;
+            Cursor = Cursors.Hand;
             DoubleBuffered = true;
             Name = "NodeControl";
-            Size = new Size(50, 50);
+            Size = new Size(10, 10);
             Paint += NodeControl_Paint;
             MouseDown += NodeControl_MouseDown;
             MouseEnter += NodeControl_MouseEnter;
