@@ -10,72 +10,68 @@ namespace GTS_Controls
 
         public GraphDisplay()
         {
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             InitializeComponent();
 
-            UserInput.Instance.AddKeyDownListener(Keys.Space, SpacePressed);
-
             CreateNode();
             CreateNode();
             CreateNode();
             CreateNode();
             CreateNode();
-
+            
             foreach (NodeControl node in nodeControls)
             {
-                node.OnNodeClicked += Function;
+                node.OnNodeClicked += ShowNodeInDebug;
+                node.Move += UpdateUserControlOnNodeMove;
+                node.Move += UpdatePanelOnNodeMove;
             }
+
+            this.panelGraph.Paint += panelGraph_Paint;
         }
 
-        public void CreateNode()
+        private void panelGraph_Paint(object? sender, PaintEventArgs e)
         {
-            NodeControl nodeControl = new NodeControl();
-            nodeControl.Parent = panelGraph;
-            nodeControl.Location = this.Location;
-            nodeControl.BackColor = Color.Transparent;
-            nodeControl.BackgroundImageLayout = ImageLayout.None;
-            nodeControl.CircleColor = Color.DimGray;
-            nodeControl.Name = "nodeControl";
-            nodeControl.TabIndex = 0;
-            nodeControl.BringToFront();
-            nodeControls.Add(nodeControl);
-        }
-
-        public void Function(object? sender, EventArgs e)
-        {
-            if (sender is NodeControl node)
-            {
-                Debug.WriteLine(node.Name);
-                // node.
-            }
-            else
-            {
-                throw new Exception("sender was not a node something went wrong.");
-            }
-        }
-
-        private void panelGraph_Paint(object sender, PaintEventArgs e)
-        {
-            if (isSpaceDown)
-            {
-                CreateLineFromTwoNodes(nodeControls[0], nodeControls[1], e);
-            }
-
-            isSpaceDown = false;
+            CreateLineFromTwoNodes(nodeControls[0], nodeControls[1], e);
         }
 
         private void CreateLineFromTwoNodes(NodeControl node1, NodeControl node2, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            Pen penBlack = new Pen(Color.Black);
-
+            Pen penBlack = new Pen(Color.Black, 5);
             g.DrawLine(penBlack, node1.CenterOrigin, node2.CenterOrigin);
         }
 
-        private void SpacePressed(object? sender, EventArgs e)
+        private void CreateNode()
         {
-            isSpaceDown = true;
+            NodeControl nodeControl = new NodeControl();
+            nodeControl.Parent = this;
+            nodeControl.Location = this.Location;
+            nodeControl.Name = $"nodeControl{nodeControls.Count}";
+
+            this.Controls.Add(nodeControl);
+            nodeControl.BringToFront();
+
+            nodeControls.Add(nodeControl);
+        }
+
+        
+        private void UpdateUserControlOnNodeMove(object? sender, EventArgs e)
+        {
             this.Refresh();
+            this.Invalidate();
+        }
+        
+
+        private void UpdatePanelOnNodeMove(object? sender, EventArgs e)
+        {
+            this.panelGraph.Invalidate();
+        }
+
+        private void ShowNodeInDebug(object? sender, EventArgs e)
+        {
+            if (sender is NodeControl node)
+            {
+                Debug.WriteLine(node.Name);
+            }
         }
     }
 }

@@ -28,35 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panelGraph = new Panel();
+            panelGraph = new DoubleBufferedPanel();
             SuspendLayout();
             // 
             // panelGraph
             // 
             panelGraph.AllowDrop = true;
-            panelGraph.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panelGraph.AutoScroll = true;
+            panelGraph.AutoSize = true;
             panelGraph.BackColor = SystemColors.GradientActiveCaption;
             panelGraph.BorderStyle = BorderStyle.Fixed3D;
+            panelGraph.Dock = DockStyle.Fill;
             panelGraph.Location = new Point(0, 0);
             panelGraph.Name = "panelGraph";
-            panelGraph.Size = new Size(800, 450);
+            panelGraph.Size = new Size(796, 446);
             panelGraph.TabIndex = 2;
-            panelGraph.Paint += panelGraph_Paint;
             // 
             // GraphDisplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BorderStyle = BorderStyle.Fixed3D;
             Controls.Add(panelGraph);
             DoubleBuffered = true;
             Name = "GraphDisplay";
-            Size = new Size(800, 450);
+            Size = new Size(796, 446);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Panel panelGraph;
+        private DoubleBufferedPanel panelGraph;
     }
 }
