@@ -38,7 +38,7 @@ namespace GTS_UserInput
         /// Gets the instance of the singleton userinput
         /// </summary>
         /// <exception cref="Exception"> when no UserInput is created. </exception>
-        public static UserInput Instance
+        public static UserInput? Instance
         {
             get
             {
@@ -47,7 +47,7 @@ namespace GTS_UserInput
                     return instance;
                }
                
-               throw new Exception("user input has not been created");
+               return null;
             }
         }
 
@@ -95,7 +95,7 @@ namespace GTS_UserInput
         {
             if (!this.inputKeyMapping.ContainsKey(keyCode)) { Debug.WriteLine("KeyCode Not Supported"); return; }
 
-            inputKeyMapping[keyCode].OnKeyDown += listener;
+            inputKeyMapping[keyCode].OnKeyUp += listener;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace GTS_UserInput
         {
             if (!this.inputKeyMapping.ContainsKey(keyCode)) { Debug.WriteLine("KeyCode Not Supported"); return; }
 
-            inputKeyMapping[keyCode].OnKeyDown -= listener;
+            inputKeyMapping[keyCode].OnKeyUp -= listener;
         }
 
         /// <summary>
