@@ -87,7 +87,7 @@ namespace GTS_Form
             // 
             graphDisplay1.Location = new Point(12, 37);
             graphDisplay1.Name = "graphDisplay1";
-            graphDisplay1.Size = new Size(590, 401);
+            graphDisplay1.Size = new Size(580, 401);
             graphDisplay1.TabIndex = 3;
             // 
             // FormGTS

@@ -10,13 +10,8 @@ namespace GTS_Form
         public FormGTS()
         {
             this.userInput = new UserInput(this);
+
             InitializeComponent();
-            // this.userInput.OnSpaceDown += SomeListener;
-
-        }
-
-        void SomeListener(object? sender, EventArgs e)
-        {
         }
     }
 }
