@@ -1,8 +1,10 @@
 ﻿using GTS_UserInput;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace GTS_Controls
 {
+    [ToolboxItem(true)]
     public partial class GraphDisplay : UserControl
     {
         List<NodeControl> nodeControls = new List<NodeControl>();

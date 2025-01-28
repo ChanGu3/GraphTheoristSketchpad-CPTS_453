@@ -1,4 +1,6 @@
-﻿namespace GTS_Controls
+﻿using System.ComponentModel;
+
+namespace GTS_Controls
 {
     partial class GraphDisplay
     {

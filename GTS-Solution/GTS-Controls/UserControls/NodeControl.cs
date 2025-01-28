@@ -16,7 +16,7 @@ using GTS_UserInput;
 namespace GTS_Controls
 {
     [ToolboxItem(true)]
-    public partial class NodeControl : UserControl
+    public partial class NodeControl : DraggableUserControl
     {
         // create a static mutex to allow only one click at a time
 
@@ -25,22 +25,18 @@ namespace GTS_Controls
         private int circleRadius = 15;
         private int controlSize = 0;
         private Color circleColor = Color.DimGray;
-        private bool isPickedUp = false;
-        private bool isHovering = false;
-        private bool isMouseDown = false;
 
-        public NodeControl()
+        public NodeControl() : base()
         {
-            AddListeners();
             InitializeComponent();
 
-            controlSize = this.CircleDiameter * 2;
+            controlSize = this.Diameter * 2;
             this.Size = new Size(controlSize, controlSize); 
 
             GraphicsPath path = new GraphicsPath();
             // Getting the x and y for the distance to make to create circle correctly from top left position
             int coordinateDistance = controlSize / 4;
-            path.AddEllipse(new RectangleF(coordinateDistance, coordinateDistance, this.CircleDiameter, this.CircleDiameter));
+            path.AddEllipse(new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
             this.Region = new Region(path);
         }
 
@@ -64,7 +60,7 @@ namespace GTS_Controls
                 GraphicsPath path = new GraphicsPath();
                 // Getting the x and y for the distance to make to create circle correctly from top left position
                 int coordinateDistance = controlSize / 4;
-                path.AddEllipse(new RectangleF(coordinateDistance, coordinateDistance, this.CircleDiameter, this.CircleDiameter));
+                path.AddEllipse(new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
                 this.Region = new Region(path);
 
                 this.Invalidate();
@@ -75,7 +71,7 @@ namespace GTS_Controls
         /// Get and sets the color of the Circle
         /// </summary>
         [Browsable(true), Category("Fields")]
-        public Color CircleColor
+        public Color Color
         {
             get => circleColor;
             set
@@ -90,7 +86,7 @@ namespace GTS_Controls
         /// Gets the circles diameter
         /// </summary>
 
-        public int CircleDiameter
+        public int Diameter
         {
             get => circleRadius * 2;
         }
@@ -100,28 +96,10 @@ namespace GTS_Controls
         /// </summary>
         public Point CenterOrigin
         {
-            get => new Point(this.Location.X + (controlSize/2), this.Location.Y + (controlSize / 2));
+            get => new Point(this.Location.X + (this.Size.Width/2), this.Location.Y + (this.Size.Height / 2));
         }
 
         #endregion
-
-        /// <summary>
-        /// adds listener on instantiation
-        /// </summary>
-        private void AddListeners()
-        {
-            UserInput.Instance?.AddKeyDownListener(Keys.ControlKey, UpdateCursorSizeAll);
-            UserInput.Instance?.AddKeyUpListener(Keys.ControlKey, UpdateCursorHand);
-        }
-
-        /// <summary>
-        /// removes all listeners after disposing instance
-        /// </summary>
-        private void RemoveListeners()
-        {
-            UserInput.Instance?.RemoveKeyDownListener(Keys.ControlKey, UpdateCursorSizeAll);
-            UserInput.Instance?.RemoveKeyUpListener(Keys.ControlKey, UpdateCursorHand);
-        }
 
         /// <summary>
         /// painting the circle
@@ -136,128 +114,7 @@ namespace GTS_Controls
             // Getting the x and y for the distance to make to create circle correctly from top left position
             int coordinateDistance = controlSize / 4;
 
-            g.FillEllipse(myDrawingBrush, new RectangleF(coordinateDistance, coordinateDistance, this.CircleDiameter, this.CircleDiameter));
-        }
-
-        /// <summary>
-        /// mouse clicking inside of the control.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NodeControl_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (UserInput.Instance!.GetInputKeyDataIsDown(Keys.ControlKey))
-            {
-                this.isPickedUp = true;
-                return;
-            }
-
-            if (!this.isMouseDown)
-            {
-                this.isMouseDown = true;
-                this.OnNodeClicked?.Invoke(this, new EventArgs());
-            }
-        }
-
-        private void NodeControl_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (this.isPickedUp)
-            {
-                if (!UserInput.Instance!.GetInputKeyDataIsDown(Keys.ControlKey))
-                {
-                    this.Cursor = Cursors.Hand;
-                }
-
-                this.isPickedUp = false;
-                return;
-            }
-
-            if (this.isMouseDown)
-            {
-                this.isMouseDown = false;
-            }
-        }
-
-        /// <summary>
-        /// mouse cursor entering the control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NodeControl_MouseEnter(object sender, EventArgs e)
-            
-            // sets the cursor if upon entering still holding ctrl
-        {   if (UserInput.Instance!.GetInputKeyDataIsDown(Keys.ControlKey)) { this.Cursor = Cursors.SizeAll; }
-
-            if (!this.isHovering) { this.isHovering = true; }
-        }
-
-        /// <summary>
-        /// mouse cursor leaving the control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NodeControl_MouseLeave(object sender, EventArgs e)
-        {
-            // sets the cursor if upon leaving still holding ctrl
-            this.Cursor = Cursors.Hand;
-
-            if (!this.isHovering) { this.isHovering = true; }
-        }
-
-        /// <summary>
-        /// when mouse is moving over the cursor.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NodeControl_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (this.isHovering)
-            {
-                MoveControl();
-            }
-        }
-
-        /// <summary>
-        /// moves the control by the origin of the cursor
-        /// </summary>
-        /// <exception cref="InvalidOperationException"></exception>
-        private void MoveControl()
-        {
-            if (isPickedUp)
-            {
-                if (this.Parent is null) { throw new InvalidOperationException("cannot move object as it is not a child of a parent control"); }
-
-                // upper left point of Control
-                Point upperLeftControl = this.Parent.PointToClient(Control.MousePosition);
-
-                this.Location = new Point(upperLeftControl.X - (controlSize / 2), upperLeftControl.Y - (controlSize / 2));
-            }
-        }
-
-        /// <summary>
-        /// updates the cursor to Size All.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UpdateCursorSizeAll(object? sender, EventArgs e)
-        {
-            if (this.isHovering)
-            {
-                this.Cursor = Cursors.SizeAll;
-            }
-        }
-
-        /// <summary>
-        /// updates the cursor to Hand.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UpdateCursorHand(object? sender, EventArgs e)
-        {
-            if (this.isHovering && !this.isPickedUp)
-            {
-                this.Cursor = Cursors.Hand;
-            }
+            g.FillEllipse(myDrawingBrush, new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
         }
 
         /*

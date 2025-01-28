@@ -1,7 +1,12 @@
-﻿namespace GTS_Controls
+﻿namespace GTS_Controls.UserControls
 {
-    partial class NodeControl
+    partial class LineUserControl
     {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -21,22 +26,10 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        protected override void InitializeComponent()
+        private void InitializeComponent()
         {
-            SuspendLayout();
-            // 
-            // NodeControl
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Transparent;
-            BackgroundImageLayout = ImageLayout.None;
-            Cursor = Cursors.Hand;
-            DoubleBuffered = true;
-            Name = "NodeControl";
-            Size = new Size(10, 10);
-            Paint += NodeControl_Paint;
-            ResumeLayout(false);
+            components = new System.ComponentModel.Container();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         }
 
         #endregion

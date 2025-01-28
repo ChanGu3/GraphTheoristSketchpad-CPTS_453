@@ -1,6 +1,6 @@
 ﻿namespace GTS_Controls
 {
-    partial class NodeControl
+    partial class DraggableUserControl
     {
         /// <summary> 
         /// Clean up any resources being used.
@@ -8,6 +8,8 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            this.RemoveListeners();
+
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -25,17 +27,12 @@
         {
             SuspendLayout();
             // 
-            // NodeControl
+            // DraggableUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Transparent;
-            BackgroundImageLayout = ImageLayout.None;
-            Cursor = Cursors.Hand;
-            DoubleBuffered = true;
-            Name = "NodeControl";
-            Size = new Size(10, 10);
-            Paint += NodeControl_Paint;
+            BackColor = Color.Gray;
+            Name = "DraggableUserControl";
             ResumeLayout(false);
         }
 
