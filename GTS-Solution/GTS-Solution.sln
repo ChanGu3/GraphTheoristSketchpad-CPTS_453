@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTS-Controls", "GTS-Controls\GTS-Controls.csproj", "{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing_GraphEngine", "Testing_GraphEngine\Testing_GraphEngine.csproj", "{56C5AC2D-2074-4B2C-8746-8FE55C89B285}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F140BC4C-AA5E-471F-A916-0E9F886CD3BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56C5AC2D-2074-4B2C-8746-8FE55C89B285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C5AC2D-2074-4B2C-8746-8FE55C89B285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C5AC2D-2074-4B2C-8746-8FE55C89B285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C5AC2D-2074-4B2C-8746-8FE55C89B285}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

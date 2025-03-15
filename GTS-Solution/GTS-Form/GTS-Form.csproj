@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GTS_GraphEngine\GTS_GraphEngine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="GTS-Controls">
       <HintPath>..\GTS-Controls\bin\Debug\net8.0-windows\GTS-Controls.dll</HintPath>
     </Reference>

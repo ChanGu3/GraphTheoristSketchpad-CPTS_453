@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GTS_Controls.UserControls
+namespace GTS_Controls.UserControls.MenuControls
 {
-    public partial class LineUserControl : UserControl
+    public partial class EdgeSelectMenu : UserControl
     {
-        public LineUserControl()
+        public EdgeSelectMenu()
         {
             InitializeComponent();
         }

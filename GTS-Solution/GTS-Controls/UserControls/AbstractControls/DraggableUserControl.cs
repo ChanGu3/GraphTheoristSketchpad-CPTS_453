@@ -87,8 +87,13 @@ namespace GTS_Controls
 
                 // upper left point of Control
                 Point upperLeftControl = this.Parent.PointToClient(Control.MousePosition);
-
-                this.Location = new Point(upperLeftControl.X - (this.Size.Width / 2), upperLeftControl.Y - (this.Size.Height / 2));
+                
+                // keeps draggable within border of parent!
+                if (upperLeftControl.X > 0 && upperLeftControl.X < this.Parent.Width &&
+                    upperLeftControl.Y > 0 && upperLeftControl.Y < this.Parent.Height)
+                {
+                    this.Location = new Point(upperLeftControl.X - (this.Size.Width / 2), upperLeftControl.Y - (this.Size.Height / 2));
+                }
             }
         }
 
@@ -125,7 +130,7 @@ namespace GTS_Controls
         }
 
         /// <summary>
-        /// 
+        /// what happens when you press ctr over the control object
         /// </summary>
         /// <param name="sender"> UserInputInstance. </param>
         /// <param name="e"> arguments. </param>
@@ -138,7 +143,7 @@ namespace GTS_Controls
         }
 
         /// <summary>
-        /// 
+        /// what happens when you release ctr over the control object
         /// </summary>
         /// <param name="sender"> UserInputInstance. </param>
         /// <param name="e"> arguments. </param>

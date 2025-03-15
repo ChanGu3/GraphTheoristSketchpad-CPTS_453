@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GTS_GraphEngine
 {
-    public class GraphGTS : AbstractGraphGTS
+    public class GraphGTS<Type> : AbstractGraphGTS<Type>
     {
         /// <summary>
         /// adds a edge of a loop onto the vertex.
@@ -15,13 +15,13 @@ namespace GTS_GraphEngine
         /// <param name="isDirected"> true makes a directed edge. </param>
         /// <returns> edge ID created. </returns>
         /// <exception cref="Exception"> if trying to add an edge to a vertex that doesn't exist. </exception>
-        public int AddLoop(int vertexID, bool isDirected) 
+        public override int AddLoop(int vertexID, bool isDirected, int weight = 1) 
         {
             if (!this.DoesVertexExist(vertexID)) { throw new Exception($"Vertex (vertexID: {vertexID}) Does Not Exist"); }
 
             int edgeID = this.GetNewEdgeID();
 
-            EdgeGTS edge = new EdgeGTS(vertexes[vertexID], vertexes[vertexID], isDirected, weight: 1);
+            EdgeGTS<Type> edge = new EdgeGTS<Type>(edgeID, vertexes[vertexID], vertexes[vertexID], isDirected, weight: 1);
             this.edges.Add(edgeID, edge);
 
             vertexes[vertexID].AddNeighborEdgeIn(edge, vertexes[vertexID]);
@@ -39,14 +39,14 @@ namespace GTS_GraphEngine
         /// <param name="isDirected"> true makes a directed edge. </param>
         /// <returns> edge ID created. </returns>
         /// <exception cref="Exception"> if trying to add an edge to a vertex that doesn't exist. </exception>
-        public int AddEdge(int vertexID_A, int vertexID_B, bool isDirected)
+        public override int AddEdge(int vertexID_A, int vertexID_B, bool isDirected, int weight = 1)
         {
             if (!this.DoesVertexExist(vertexID_A)) { throw new Exception($"Vertex (vertexID: {vertexID_A}) Does Not Exist"); }
             if (!this.DoesVertexExist(vertexID_B)) { throw new Exception($"Vertex (vertexID: {vertexID_B}) Does Not Exist"); }
 
             int edgeID = this.GetNewEdgeID();
 
-            EdgeGTS edge = new EdgeGTS(vertexes[vertexID_A], vertexes[vertexID_B], isDirected, weight: 1);
+            EdgeGTS<Type> edge = new EdgeGTS<Type>(edgeID, vertexes[vertexID_A], vertexes[vertexID_B], isDirected, weight: 1);
             this.edges.Add(edgeID, edge);
 
             if (isDirected) 

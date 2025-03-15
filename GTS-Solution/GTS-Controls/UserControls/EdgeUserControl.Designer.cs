@@ -1,6 +1,6 @@
 ﻿namespace GTS_Controls
 {
-    partial class NodeControl
+    partial class EdgeUserControl
     {
         /// <summary> 
         /// Clean up any resources being used.
@@ -25,17 +25,14 @@
         {
             SuspendLayout();
             // 
-            // NodeControl
+            // LineUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
-            BackgroundImageLayout = ImageLayout.None;
-            Cursor = Cursors.Hand;
             DoubleBuffered = true;
-            Name = "NodeControl";
-            Size = new Size(10, 10);
-            Paint += NodeControl_Paint;
+            Name = "LineUserControl";
+            Paint += LineUserControl_Paint;
             ResumeLayout(false);
         }
 

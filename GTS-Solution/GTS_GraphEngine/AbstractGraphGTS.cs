@@ -6,28 +6,38 @@ using System.Threading.Tasks;
 
 namespace GTS_GraphEngine
 {
-    public class AbstractGraphGTS
+    public abstract class AbstractGraphGTS<Type>
     {
         /// int = ID of vertex
         /// VertexGTS<Type> = The Vertex
-        protected Dictionary<int, VertexGTS> vertexes = new();
+        protected Dictionary<int, VertexGTS<Type>> vertexes = new();
         private int vertexIDCount = 0;
         private Stack<int> vertexIDSRemoved = new Stack<int>();
 
         /// string = Edge Name
         /// EdgeGTS<Type> = The Edge
-        protected Dictionary<int, EdgeGTS> edges = new();
+        protected Dictionary<int, EdgeGTS<Type>> edges = new();
         private int edgeIDCount = 0;
         private Stack<int> edgeIDSRemoved = new Stack<int>();
+
+        public Dictionary<int, EdgeGTS<Type>> Edges
+        {
+            get => edges;
+        }
+
+        public Dictionary<int, VertexGTS<Type>> Vertexes
+        {
+            get => vertexes;
+        }
 
         /// <summary>
         /// add a vertex to the graph with a type.
         /// </summary>
-        public int AddVertex()
+        public int AddVertex(Type data = default)
         {
             int vertexID = GetNewVertexID();
 
-            vertexes.Add(vertexID, new VertexGTS(vertexID));
+            vertexes.Add(vertexID, new VertexGTS<Type>(vertexID, data));
 
             return vertexID;
         }
@@ -39,7 +49,7 @@ namespace GTS_GraphEngine
         /// <returns> true if vertex removed false if not. </returns>
         public bool TryRemoveVertex(int vertexID)
         {
-            bool vertexExists = this.vertexes.Remove(vertexID, out VertexGTS? removedNode);
+            bool vertexExists = this.vertexes.Remove(vertexID, out VertexGTS<Type>? removedNode);
 
             if (vertexExists) { this.vertexIDSRemoved.Push(vertexID); }
 
@@ -84,6 +94,19 @@ namespace GTS_GraphEngine
             this.edgeIDSRemoved.Push(edgeID);
         }
 
+        public int EdgeCountBetweenVertices(int vertexA, int vertexB)
+        {
+            IEnumerable<EdgeGTS<Type>> vertexAOutToB = this.vertexes[vertexA].NeighborsOut.Keys.Intersect(this.vertexes[vertexB].NeighborsIn.Keys);
+            IEnumerable<EdgeGTS<Type>> vertexBOutToA = this.vertexes[vertexB].NeighborsOut.Keys.Intersect(this.vertexes[vertexA].NeighborsIn.Keys);
+
+            return (vertexAOutToB.Count() + vertexBOutToA.Count()) - vertexAOutToB.Intersect(vertexBOutToA).Count();
+        }
+
+        public int EdgeCountLoopVertex(int vertexID)
+        {
+            return this.vertexes[vertexID].NeighborsOut.Keys.Where((edge) => edge.VertexFrom.VertexID == edge.VertexTo.VertexID).Count();
+        }
+
         protected int GetNewVertexID()
         {
             if (vertexIDSRemoved.Count != 0) { return vertexIDSRemoved.Pop(); }
@@ -105,5 +128,10 @@ namespace GTS_GraphEngine
         {
             return edges.TryGetValue(edgeID, out _);
         }
+
+
+        public abstract int AddLoop(int vertexID, bool isDirected, int weight = 1);
+
+        public abstract int AddEdge(int vertexID_A, int vertexID_B, bool isDirected, int weight = 1);
     }
 }

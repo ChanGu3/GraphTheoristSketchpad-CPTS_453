@@ -16,28 +16,33 @@ using GTS_UserInput;
 namespace GTS_Controls
 {
     [ToolboxItem(true)]
-    public partial class NodeControl : DraggableUserControl
+    public partial class VertexUserControl : DraggableUserControl
     {
         // create a static mutex to allow only one click at a time
+        int vertexID;
 
         public event EventHandler? OnNodeClicked;
 
         private int circleRadius = 15;
         private int controlSize = 0;
         private Color circleColor = Color.DimGray;
+        private bool isHighlighted = false;
 
-        public NodeControl() : base()
+        public VertexUserControl(int vertexID) : base()
         {
+            this.vertexID = vertexID;
             InitializeComponent();
 
             controlSize = this.Diameter * 2;
             this.Size = new Size(controlSize, controlSize); 
+            
+            this.ResetRegion();
+        }
 
-            GraphicsPath path = new GraphicsPath();
-            // Getting the x and y for the distance to make to create circle correctly from top left position
-            int coordinateDistance = controlSize / 4;
-            path.AddEllipse(new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
-            this.Region = new Region(path);
+        public bool IsHighlighted
+        {
+            get => isHighlighted;
+            set => isHighlighted = value;
         }
 
         #region Properties 
@@ -46,22 +51,18 @@ namespace GTS_Controls
         /// <summary>
         /// Get and sets the circleRadius
         /// </summary>
-        [Browsable(true), Category("Fields")]
-        public int CircleRadius
+        [Browsable(true), Category("NodeUser Properties")]
+        public int CircleRadius 
         {
             get => circleRadius;
             set
             {
                 circleRadius = value;
 
-                //controlSize = this.CircleDiameter * 2;
+                controlSize = this.Diameter * 2;
                 this.Size = new Size(controlSize, controlSize);
-
-                GraphicsPath path = new GraphicsPath();
-                // Getting the x and y for the distance to make to create circle correctly from top left position
-                int coordinateDistance = controlSize / 4;
-                path.AddEllipse(new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
-                this.Region = new Region(path);
+                
+                this.ResetRegion();
 
                 this.Invalidate();
             }
@@ -83,6 +84,14 @@ namespace GTS_Controls
         #endregion
 
         /// <summary>
+        /// vertexID to link to graph.
+        /// </summary>
+        public int VertexID
+        {
+            get => vertexID;
+        }
+
+        /// <summary>
         /// Gets the circles diameter
         /// </summary>
 
@@ -101,6 +110,15 @@ namespace GTS_Controls
 
         #endregion
 
+        private void ResetRegion()
+        {
+            GraphicsPath path = new GraphicsPath();
+            // Getting the x and y for the distance to make to create circle correctly from top left position
+            int coordinateDistance = controlSize / 4;
+            path.AddEllipse(new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
+            this.Region = new Region(path);
+        }
+
         /// <summary>
         /// painting the circle
         /// </summary>
@@ -108,13 +126,19 @@ namespace GTS_Controls
         /// <param name="e"></param>
         private void NodeControl_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            Graphics graphics = e.Graphics;
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
             Brush myDrawingBrush = new SolidBrush(this.circleColor);
-
             // Getting the x and y for the distance to make to create circle correctly from top left position
             int coordinateDistance = controlSize / 4;
 
-            g.FillEllipse(myDrawingBrush, new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
+            graphics.FillEllipse(myDrawingBrush, new RectangleF(coordinateDistance, coordinateDistance, this.Diameter, this.Diameter));
+
+            if (this.isHighlighted)
+            {
+                Brush brushHighlight = new SolidBrush(Color.White);
+                graphics.FillEllipse(brushHighlight, new RectangleF(coordinateDistance * 1.5f, coordinateDistance * 1.5f, this.Diameter/2, this.Diameter/2));
+            }
         }
 
         /*

@@ -1,12 +1,7 @@
-﻿namespace GTS_Controls.UserControls
+﻿namespace GTS_Controls
 {
-    partial class LineUserControl
+    partial class VertexUserControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -26,10 +21,22 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        protected override void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            SuspendLayout();
+            // 
+            // NodeControl
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Transparent;
+            BackgroundImageLayout = ImageLayout.None;
+            Cursor = Cursors.Hand;
+            DoubleBuffered = true;
+            Name = "NodeControl";
+            Size = new Size(10, 10);
+            Paint += NodeControl_Paint;
+            ResumeLayout(false);
         }
 
         #endregion

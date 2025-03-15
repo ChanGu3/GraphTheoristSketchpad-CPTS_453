@@ -30,7 +30,11 @@ namespace GTS_Controls
         /// </summary>
         private void InitializeComponent()
         {
+            components = new Container();
             panelGraph = new DoubleBufferedPanel();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            createVertexToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // panelGraph
@@ -42,8 +46,21 @@ namespace GTS_Controls
             panelGraph.Dock = DockStyle.Fill;
             panelGraph.Location = new Point(0, 0);
             panelGraph.Name = "panelGraph";
-            panelGraph.Size = new Size(796, 446);
+            panelGraph.Size = new Size(1301, 822);
             panelGraph.TabIndex = 2;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { createVertexToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(181, 48);
+            // 
+            // createVertexToolStripMenuItem
+            // 
+            createVertexToolStripMenuItem.Name = "createVertexToolStripMenuItem";
+            createVertexToolStripMenuItem.Size = new Size(180, 22);
+            createVertexToolStripMenuItem.Text = "Create Vertex";
+            createVertexToolStripMenuItem.Click += CreateVertex_Click;
             // 
             // GraphDisplay
             // 
@@ -53,7 +70,8 @@ namespace GTS_Controls
             Controls.Add(panelGraph);
             DoubleBuffered = true;
             Name = "GraphDisplay";
-            Size = new Size(796, 446);
+            Size = new Size(1301, 822);
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -61,5 +79,7 @@ namespace GTS_Controls
         #endregion
 
         private DoubleBufferedPanel panelGraph;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem createVertexToolStripMenuItem;
     }
 }

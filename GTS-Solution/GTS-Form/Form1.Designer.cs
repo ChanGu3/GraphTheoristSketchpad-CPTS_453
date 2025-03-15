@@ -35,8 +35,8 @@ namespace GTS_Form
             fileToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             loadToolStripMenuItem = new ToolStripMenuItem();
-            groupBoxMain = new GroupBox();
             graphDisplay1 = new GraphDisplay();
+            menuControl1 = new GTS_Controls.UserControls.MenuControl();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -46,7 +46,7 @@ namespace GTS_Form
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.Size = new Size(1462, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -73,32 +73,29 @@ namespace GTS_Form
             loadToolStripMenuItem.Size = new Size(109, 22);
             loadToolStripMenuItem.Text = "Load...";
             // 
-            // groupBoxMain
-            // 
-            groupBoxMain.BackColor = SystemColors.ActiveBorder;
-            groupBoxMain.Location = new Point(608, 37);
-            groupBoxMain.Name = "groupBoxMain";
-            groupBoxMain.Size = new Size(180, 401);
-            groupBoxMain.TabIndex = 2;
-            groupBoxMain.TabStop = false;
-            groupBoxMain.Text = "Main Controls";
-            // 
             // graphDisplay1
             // 
             graphDisplay1.BorderStyle = BorderStyle.Fixed3D;
             graphDisplay1.Location = new Point(12, 37);
             graphDisplay1.Name = "graphDisplay1";
-            graphDisplay1.Size = new Size(580, 401);
+            graphDisplay1.Size = new Size(1154, 711);
             graphDisplay1.TabIndex = 3;
+            // 
+            // menuControl1
+            // 
+            menuControl1.Location = new Point(1172, 37);
+            menuControl1.Name = "menuControl1";
+            menuControl1.Size = new Size(281, 711);
+            menuControl1.TabIndex = 4;
             // 
             // FormGTS
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1462, 762);
+            Controls.Add(menuControl1);
             Controls.Add(graphDisplay1);
-            Controls.Add(groupBoxMain);
             Controls.Add(menuStrip1);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -119,7 +116,7 @@ namespace GTS_Form
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem loadToolStripMenuItem;
-        private GroupBox groupBoxMain;
         private GraphDisplay graphDisplay1;
+        private GTS_Controls.UserControls.MenuControl menuControl1;
     }
 }
