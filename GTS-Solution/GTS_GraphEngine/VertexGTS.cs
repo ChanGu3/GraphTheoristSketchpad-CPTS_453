@@ -26,7 +26,7 @@ namespace GTS_GraphEngine
         /// Type = Vertex Name
         private Dictionary<EdgeGTS<Type>, VertexGTS<Type>> neighborsOut = new();
 
-        public VertexGTS(int vertexID, Type data = default) 
+        public VertexGTS(int vertexID, Type data = default!) 
         { 
             this.data = data;
             this.vertexID = vertexID;
@@ -43,6 +43,11 @@ namespace GTS_GraphEngine
             set => data = value;
         }
 
+        public int DegreeCount
+        {
+            get => this.neighborsIn.Count() + neighborsOut.Count();
+        }
+
         public Dictionary<EdgeGTS<Type>, VertexGTS<Type>> NeighborsIn
         {
             get => neighborsIn;
@@ -51,6 +56,20 @@ namespace GTS_GraphEngine
         public Dictionary<EdgeGTS<Type>, VertexGTS<Type>> NeighborsOut
         {
             get => neighborsOut;
+        }
+
+        public List<EdgeGTS<Type>> Edges
+        {
+            get
+            {
+                HashSet<EdgeGTS<Type>> values = new();
+                foreach (EdgeGTS<Type> edge in this.NeighborsOut.Keys.Union(this.NeighborsIn.Keys))
+                {
+                    values.Add(edge);
+                }
+
+                return values.AsEnumerable().ToList();
+            }
         }
 
         public void AddNeighborEdgeIn(EdgeGTS<Type> edge, VertexGTS<Type> vertexFrom)

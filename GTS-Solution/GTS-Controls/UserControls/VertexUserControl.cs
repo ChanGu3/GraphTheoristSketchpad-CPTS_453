@@ -21,12 +21,13 @@ namespace GTS_Controls
         // create a static mutex to allow only one click at a time
         int vertexID;
 
-        public event EventHandler? OnNodeClicked;
+        // public event EventHandler? OnNodeClicked;
 
         private int circleRadius = 15;
         private int controlSize = 0;
-        private Color circleColor = Color.DimGray;
+        private Color circleColor = Color.Gray;
         private bool isHighlighted = false;
+        private Control? label;
 
         public VertexUserControl(int vertexID) : base()
         {
@@ -45,8 +46,16 @@ namespace GTS_Controls
             set => isHighlighted = value;
         }
 
-        #region Properties 
+        /*
+        public Control Label
+        {
+            get => label;
+            set => label = value;
+        }
+        */
 
+        #region Properties 
+        
         #region FIELDS
         /// <summary>
         /// Get and sets the circleRadius
@@ -139,6 +148,42 @@ namespace GTS_Controls
                 Brush brushHighlight = new SolidBrush(Color.White);
                 graphics.FillEllipse(brushHighlight, new RectangleF(coordinateDistance * 1.5f, coordinateDistance * 1.5f, this.Diameter/2, this.Diameter/2));
             }
+        }
+
+        public void AddLabel(string label)
+        {
+            this.label = new Label();
+            this.label.Text = label;
+            this.label.Font = new Font(this.label.Font.FontFamily, this.label.Font.Size + 8f, this.label.Font.Style);
+            this.label.ForeColor = Color.White;
+
+            this.label.Parent = this.Parent;
+            this.label.Location = new Point(this.CenterOrigin.X - (int)(this.circleRadius * 2.5f), this.CenterOrigin.Y - (int)(this.circleRadius * 2.5f));
+            this.label.Name = $"label{label}";
+
+            this.Parent?.Controls.Add(this.label);
+
+            //region creation
+            GraphicsPath path = new GraphicsPath();
+            Font font = (this.label as Label)!.Font;
+            path.AddString(label, font.FontFamily, (int)font.Style, font.Size, new Point(0, 0), StringFormat.GenericDefault);
+            
+            //path.Widen(new Pen(Color.Black, 1f));
+
+            // Apply the text path as the region
+            this.label.Region = new Region(path);
+            this.label.Paint +=
+            (sender, e) => {
+                e.Graphics.FillPath(new SolidBrush(Color.White), path);
+            };
+
+            this.label.BringToFront();
+        }
+
+        public void RemoveLabel()
+        {
+            this.Parent?.Controls.Remove(this.label);
+            this.label?.Dispose();
         }
 
         /*

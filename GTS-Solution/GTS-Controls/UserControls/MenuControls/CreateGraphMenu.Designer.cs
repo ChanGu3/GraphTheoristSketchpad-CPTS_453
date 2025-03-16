@@ -35,7 +35,7 @@
             // 
             // textBox1
             // 
-            textBox1.BackColor = SystemColors.Control;
+            textBox1.BackColor = SystemColors.ActiveBorder;
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 16F);
             textBox1.Location = new Point(49, 18);

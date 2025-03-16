@@ -48,17 +48,11 @@ namespace GTS_Controls
                 else if (vertexUserControls.Count == 2)
                 {
                     vertexUserControls.Dequeue().IsHighlighted = false;
-
-                    itemVertex.IsHighlighted = true;
-                    vertexUserControls.Enqueue(itemVertex);
-                }
-                else
-                {
-                    itemVertex.IsHighlighted = true;
-                    vertexUserControls.Enqueue(itemVertex);
+                    vertexUserControls.Dequeue().IsHighlighted = false;
                 }
 
-               // itemVertex.Invalidate();
+                itemVertex.IsHighlighted = true;
+                vertexUserControls.Enqueue(itemVertex);
             }
             else if (item is EdgeUserControl itemEdge)
             {
@@ -98,6 +92,7 @@ namespace GTS_Controls
             if (edgeUserControl != null)
             {
                 edgeUserControl.IsHighlighted= false;
+                edgeUserControl = null;
             }
         }
     }

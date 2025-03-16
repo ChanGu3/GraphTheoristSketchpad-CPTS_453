@@ -34,6 +34,7 @@ namespace GTS_Controls
             panelGraph = new DoubleBufferedPanel();
             contextMenuStrip1 = new ContextMenuStrip(components);
             createVertexToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuStrip2 = new ContextMenuStrip(components);
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -53,14 +54,19 @@ namespace GTS_Controls
             // 
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { createVertexToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(181, 48);
+            contextMenuStrip1.Size = new Size(144, 26);
             // 
             // createVertexToolStripMenuItem
             // 
             createVertexToolStripMenuItem.Name = "createVertexToolStripMenuItem";
-            createVertexToolStripMenuItem.Size = new Size(180, 22);
+            createVertexToolStripMenuItem.Size = new Size(143, 22);
             createVertexToolStripMenuItem.Text = "Create Vertex";
             createVertexToolStripMenuItem.Click += CreateVertex_Click;
+            // 
+            // contextMenuStrip2
+            // 
+            contextMenuStrip2.Name = "contextMenuStrip2";
+            contextMenuStrip2.Size = new Size(61, 4);
             // 
             // GraphDisplay
             // 
@@ -81,5 +87,6 @@ namespace GTS_Controls
         private DoubleBufferedPanel panelGraph;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem createVertexToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip2;
     }
 }

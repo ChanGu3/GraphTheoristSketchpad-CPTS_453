@@ -30,18 +30,19 @@
         {
             textBox3 = new TextBox();
             button4 = new Button();
-            panel1 = new Panel();
+            panelEdgeColor = new Panel();
             button1 = new Button();
-            textBox4 = new TextBox();
+            textBoxWeightCount = new TextBox();
             SuspendLayout();
             // 
             // textBox3
             // 
-            textBox3.BackColor = SystemColors.Control;
+            textBox3.BackColor = SystemColors.ActiveBorder;
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 16F);
             textBox3.Location = new Point(35, 21);
             textBox3.Name = "textBox3";
+            textBox3.ReadOnly = true;
             textBox3.Size = new Size(173, 29);
             textBox3.TabIndex = 7;
             textBox3.Text = "Edge Select Menu";
@@ -55,14 +56,15 @@
             button4.TabIndex = 8;
             button4.Text = "Change Edge Color...";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += ChangeColor_Click;
             // 
-            // panel1
+            // panelEdgeColor
             // 
-            panel1.BackColor = Color.Blue;
-            panel1.Location = new Point(179, 101);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(29, 26);
-            panel1.TabIndex = 9;
+            panelEdgeColor.BackColor = Color.Blue;
+            panelEdgeColor.Location = new Point(179, 101);
+            panelEdgeColor.Name = "panelEdgeColor";
+            panelEdgeColor.Size = new Size(29, 26);
+            panelEdgeColor.TabIndex = 9;
             // 
             // button1
             // 
@@ -72,26 +74,27 @@
             button1.TabIndex = 10;
             button1.Text = "Remove Edge";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += RemoveEdge_Click;
             // 
-            // textBox4
+            // textBoxWeightCount
             // 
-            textBox4.BackColor = SystemColors.ControlDark;
-            textBox4.BorderStyle = BorderStyle.FixedSingle;
-            textBox4.Location = new Point(13, 56);
-            textBox4.Name = "textBox4";
-            textBox4.ReadOnly = true;
-            textBox4.Size = new Size(115, 23);
-            textBox4.TabIndex = 18;
-            textBox4.Text = "Weight: [{count}]";
+            textBoxWeightCount.BackColor = SystemColors.ControlLightLight;
+            textBoxWeightCount.BorderStyle = BorderStyle.FixedSingle;
+            textBoxWeightCount.Location = new Point(13, 56);
+            textBoxWeightCount.Name = "textBoxWeightCount";
+            textBoxWeightCount.ReadOnly = true;
+            textBoxWeightCount.Size = new Size(92, 23);
+            textBoxWeightCount.TabIndex = 18;
+            textBoxWeightCount.Text = "Weight: 0";
             // 
             // EdgeSelectMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(textBox4);
+            Controls.Add(textBoxWeightCount);
             Controls.Add(button1);
             Controls.Add(button4);
-            Controls.Add(panel1);
+            Controls.Add(panelEdgeColor);
             Controls.Add(textBox3);
             Name = "EdgeSelectMenu";
             Size = new Size(250, 620);
@@ -103,8 +106,8 @@
 
         private TextBox textBox3;
         private Button button4;
-        private Panel panel1;
+        private Panel panelEdgeColor;
         private Button button1;
-        private TextBox textBox4;
+        private TextBox textBoxWeightCount;
     }
 }

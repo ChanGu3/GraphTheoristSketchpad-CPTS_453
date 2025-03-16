@@ -30,19 +30,20 @@
         {
             textBox3 = new TextBox();
             textBox5 = new TextBox();
-            weightValueTextBox = new TextBox();
-            textBox1 = new TextBox();
-            directedComboBox = new ComboBox();
+            textBoxWeightValue = new TextBox();
+            textBoxWeightTag = new TextBox();
+            comboBoxDirected = new ComboBox();
             button1 = new Button();
             SuspendLayout();
             // 
             // textBox3
             // 
-            textBox3.BackColor = SystemColors.Control;
+            textBox3.BackColor = SystemColors.ActiveBorder;
             textBox3.BorderStyle = BorderStyle.None;
             textBox3.Font = new Font("Segoe UI", 16F);
             textBox3.Location = new Point(3, 14);
             textBox3.Name = "textBox3";
+            textBox3.ReadOnly = true;
             textBox3.Size = new Size(238, 29);
             textBox3.TabIndex = 7;
             textBox3.Text = "Two Vertex Select Menu";
@@ -50,42 +51,43 @@
             // 
             // textBox5
             // 
-            textBox5.BackColor = SystemColors.Control;
+            textBox5.BackColor = SystemColors.ActiveBorder;
             textBox5.BorderStyle = BorderStyle.None;
-            textBox5.Location = new Point(107, 72);
+            textBox5.Location = new Point(105, 72);
             textBox5.Name = "textBox5";
             textBox5.ReadOnly = true;
             textBox5.Size = new Size(49, 16);
             textBox5.TabIndex = 24;
             textBox5.Text = "Directed?";
             // 
-            // weightValueTextBox
+            // textBoxWeightValue
             // 
-            weightValueTextBox.Location = new Point(150, 98);
-            weightValueTextBox.Name = "weightValueTextBox";
-            weightValueTextBox.Size = new Size(79, 23);
-            weightValueTextBox.TabIndex = 23;
+            textBoxWeightValue.Location = new Point(160, 98);
+            textBoxWeightValue.Name = "textBoxWeightValue";
+            textBoxWeightValue.Size = new Size(79, 23);
+            textBoxWeightValue.TabIndex = 23;
             // 
-            // textBox1
+            // textBoxWeightTag
             // 
-            textBox1.BackColor = SystemColors.Control;
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Location = new Point(105, 101);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(49, 16);
-            textBox1.TabIndex = 22;
-            textBox1.Text = "Weight:";
+            textBoxWeightTag.BackColor = SystemColors.ActiveBorder;
+            textBoxWeightTag.BorderStyle = BorderStyle.None;
+            textBoxWeightTag.Location = new Point(105, 101);
+            textBoxWeightTag.Name = "textBoxWeightTag";
+            textBoxWeightTag.ReadOnly = true;
+            textBoxWeightTag.Size = new Size(49, 16);
+            textBoxWeightTag.TabIndex = 22;
+            textBoxWeightTag.Text = "Weight:";
+            textBoxWeightTag.TextAlign = HorizontalAlignment.Center;
             // 
-            // directedComboBox
+            // comboBoxDirected
             // 
-            directedComboBox.FormattingEnabled = true;
-            directedComboBox.Items.AddRange(new object[] { "True", "False" });
-            directedComboBox.Location = new Point(165, 69);
-            directedComboBox.Name = "directedComboBox";
-            directedComboBox.Size = new Size(64, 23);
-            directedComboBox.TabIndex = 21;
-            directedComboBox.Text = "False";
+            comboBoxDirected.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxDirected.FormattingEnabled = true;
+            comboBoxDirected.Items.AddRange(new object[] { "True", "False" });
+            comboBoxDirected.Location = new Point(160, 69);
+            comboBoxDirected.Name = "comboBoxDirected";
+            comboBoxDirected.Size = new Size(79, 23);
+            comboBoxDirected.TabIndex = 21;
             // 
             // button1
             // 
@@ -102,9 +104,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(textBox5);
-            Controls.Add(weightValueTextBox);
-            Controls.Add(textBox1);
-            Controls.Add(directedComboBox);
+            Controls.Add(textBoxWeightValue);
+            Controls.Add(textBoxWeightTag);
+            Controls.Add(comboBoxDirected);
             Controls.Add(button1);
             Controls.Add(textBox3);
             Name = "TwoVertexSelectMenu";
@@ -117,9 +119,9 @@
 
         private TextBox textBox3;
         private TextBox textBox5;
-        private TextBox weightValueTextBox;
-        private TextBox textBox1;
-        private ComboBox directedComboBox;
+        private TextBox textBoxWeightValue;
+        private TextBox textBoxWeightTag;
+        private ComboBox comboBoxDirected;
         private Button button1;
     }
 }
