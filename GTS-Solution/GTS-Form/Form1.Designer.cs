@@ -69,13 +69,13 @@ namespace GTS_Form
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(180, 22);
+            toolStripMenuItem1.Size = new Size(109, 22);
             toolStripMenuItem1.Text = "Save...";
             // 
             // loadToolStripMenuItem
             // 
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            loadToolStripMenuItem.Size = new Size(180, 22);
+            loadToolStripMenuItem.Size = new Size(109, 22);
             loadToolStripMenuItem.Text = "Load...";
             // 
             // graphDisplay1
@@ -100,26 +100,31 @@ namespace GTS_Form
             textBoxOrder.Font = new Font("Segoe UI", 14F);
             textBoxOrder.Location = new Point(54, 27);
             textBoxOrder.Name = "textBoxOrder";
+            textBoxOrder.ReadOnly = true;
             textBoxOrder.Size = new Size(125, 25);
             textBoxOrder.TabIndex = 5;
             textBoxOrder.Text = "Order: 0";
             // 
             // textBoxSize
             // 
+            textBoxSize.BackColor = SystemColors.Window;
             textBoxSize.BorderStyle = BorderStyle.None;
             textBoxSize.Font = new Font("Segoe UI", 14F);
             textBoxSize.Location = new Point(207, 27);
             textBoxSize.Name = "textBoxSize";
+            textBoxSize.ReadOnly = true;
             textBoxSize.Size = new Size(125, 25);
             textBoxSize.TabIndex = 6;
             textBoxSize.Text = "Size: 0";
             // 
             // textBoxComponents
             // 
+            textBoxComponents.BackColor = SystemColors.Window;
             textBoxComponents.BorderStyle = BorderStyle.None;
             textBoxComponents.Font = new Font("Segoe UI", 14F);
             textBoxComponents.Location = new Point(373, 27);
             textBoxComponents.Name = "textBoxComponents";
+            textBoxComponents.ReadOnly = true;
             textBoxComponents.Size = new Size(178, 25);
             textBoxComponents.TabIndex = 7;
             textBoxComponents.Text = "Components: 0";

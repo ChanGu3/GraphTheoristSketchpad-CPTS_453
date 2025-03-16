@@ -21,7 +21,7 @@ namespace GTS_Form
             this.Text = $"Shortest Path From {vertexNameFrom}";
 
             this.dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            //this.dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 
             this.dataGridView1.Columns.Add("Last Vertex", "Last Vertex");
             this.dataGridView1.Columns.Add("Shortest Distance", "Shortest Distance");
