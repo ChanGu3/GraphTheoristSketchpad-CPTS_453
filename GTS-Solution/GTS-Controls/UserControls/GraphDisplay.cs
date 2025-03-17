@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel;
 using GTS_GraphEngine;
 using GTS_Controls.UserControls.MenuControls;
-using System.Runtime.CompilerServices;
-using Microsoft.VisualBasic;
 
 namespace GTS_Controls
 {
     [ToolboxItem(true)]
     public partial class GraphDisplay : UserControl
     {
-        public event Action<SelectedItems, AbstractGraphGTS<VertexUserControl>?>? ItemSelected; 
+        public event Action<SelectedItems, AbstractGraphGTS<VertexUserControl>?>? ItemSelected;
         private AbstractGraphGTS<VertexUserControl>? graphGTS = null;
         private SelectedItems selectedItems = new SelectedItems();
 
@@ -50,7 +48,7 @@ namespace GTS_Controls
             nodeControl.BringToFront();
 
             SetComponents?.Invoke(this.graphGTS!.ComponentCount);
-            this.SetOrder?.Invoke(this.graphGTS!.Vertexes.Count);
+            this.SetOrder?.Invoke(this.graphGTS!.Order);
             return nodeControl;
         }
 
@@ -79,7 +77,7 @@ namespace GTS_Controls
 
             UpdatePanelOnGraphInteraction(this, new EventArgs());
 
-            this.SetSize?.Invoke(this.graphGTS!.Edges.Count);
+            this.SetSize?.Invoke(this.graphGTS!.Size);
             SetComponents?.Invoke(this.graphGTS!.ComponentCount);
             return edgeUserControl;
         }
@@ -123,7 +121,7 @@ namespace GTS_Controls
             edgeUserControl.UpdateLinePoints(this.graphGTS.Vertexes[startID].Data.CenterOrigin, this.graphGTS.Vertexes[endID].Data.CenterOrigin);
             UpdatePanelOnGraphInteraction(this, new EventArgs());
 
-            this.SetSize?.Invoke(this.graphGTS!.Edges.Count);
+            this.SetSize?.Invoke(this.graphGTS!.Size);
             this.SetComponents?.Invoke(this.graphGTS!.ComponentCount);
             return edgeUserControl;
         }
@@ -175,16 +173,16 @@ namespace GTS_Controls
                 this.ItemSelected?.Invoke(selectedItems, this.graphGTS);
             }
         }
-        
+
         private void CreateVertex_Click(object? sender, EventArgs e)
         {
             contextMenuStrip1.Close();
             CreateVertex(mouseLocation);
         }
-    
+
         private void OnSelectItem_Down(object? sender, MouseEventArgs e)
         {
-            if(sender is VertexUserControl || sender is EdgeUserControl)
+            if (sender is VertexUserControl || sender is EdgeUserControl)
             {
                 this.selectedItems.AddSelectedItem(sender);
 
@@ -195,20 +193,20 @@ namespace GTS_Controls
         }
 
         #region GraphCreateReset
-        public void On_CreateGraph(string GraphName)
+        public void On_CreateGraph(string GraphName, bool isDirected)
         {
             if (this.graphGTS == null)
-            { 
+            {
                 if (GraphName == "graph")
                 {
-                    this.graphGTS = new GraphGTS<VertexUserControl>();
+                    this.graphGTS = new GraphGTS<VertexUserControl>(isDirected);
 
                     this.panelGraph.Enabled = true;
                     this.panelGraph.Show();
                 }
-                else if(GraphName == "weighted_graph")
+                else if (GraphName == "weighted_graph")
                 {
-                    this.graphGTS = new GraphGTSWeighted<VertexUserControl>();
+                    this.graphGTS = new GraphGTSWeighted<VertexUserControl>(isDirected);
 
                     this.panelGraph.Enabled = true;
                     this.panelGraph.Show();
@@ -219,12 +217,12 @@ namespace GTS_Controls
                 this.SetOrder?.Invoke(0);
             }
         }
-    
+
         public void On_ResetGraph(object? sender, EventArgs e)
         {
             this.panelGraph.Enabled = false;
             this.panelGraph.Hide();
-            
+
             if (graphGTS is not null)
             {
                 foreach (EdgeUserControl edge in controlEdges.Values)
@@ -294,8 +292,8 @@ namespace GTS_Controls
                 }).ToDictionary();
 
             this.SetComponents?.Invoke(this.graphGTS!.ComponentCount);
-            this.SetSize?.Invoke(this.graphGTS!.Edges.Count);
-            this.SetOrder?.Invoke(this.graphGTS!.Vertexes.Count);
+            this.SetSize?.Invoke(this.graphGTS!.Size);
+            this.SetOrder?.Invoke(this.graphGTS!.Order);
 
             UpdatePanelOnGraphInteraction(this, new EventArgs());
             this.ItemSelected?.Invoke(selectedItems, this.graphGTS);
@@ -308,16 +306,16 @@ namespace GTS_Controls
 
         public void On_OpenShortestPath()
         {
-            if(this.graphGTS is GraphGTSWeighted<VertexUserControl> graphWeighted)
+            if (this.graphGTS is GraphGTSWeighted<VertexUserControl> graphWeighted)
             {
                 Dictionary<VertexGTS<VertexUserControl>, (VertexGTS<VertexUserControl>?, float)> information = graphWeighted.GetShortestPaths(this.selectedItems.VertexUserControls!.Peek().VertexID);
-                
+
                 string vertexNameFrom = "";
 
                 int i = 0;
                 foreach (VertexGTS<VertexUserControl> vertex in information.Keys)
                 {
-                    if(this.selectedItems.VertexUserControls!.Peek().VertexID == vertex.VertexID)
+                    if (this.selectedItems.VertexUserControls!.Peek().VertexID == vertex.VertexID)
                     {
                         vertexNameFrom = $"V{i}";
                     }
@@ -398,7 +396,7 @@ namespace GTS_Controls
 
                         if (i % 2 == 0)
                         {
-                            if(i / 2 == 1) { multiplier = 1.5f; } 
+                            if (i / 2 == 1) { multiplier = 1.5f; }
 
                             this.controlEdges![edge.EdgeID].CurveHeight = 0.075f * ((int)(i / 2) * multiplier + 1);
                         }
@@ -418,7 +416,7 @@ namespace GTS_Controls
             this.controlEdges?.Remove(edgeID);
             UpdatePanelOnGraphInteraction(this, new EventArgs());
             this.SetComponents?.Invoke(this.graphGTS!.ComponentCount);
-            this.SetSize?.Invoke(this.graphGTS!.Edges.Count);
+            this.SetSize?.Invoke(this.graphGTS!.Size);
             this.ItemSelected?.Invoke(selectedItems, this.graphGTS);
         }
 
@@ -439,7 +437,7 @@ namespace GTS_Controls
 
         public void On_CheckBiPartiteness(object? sender, EventArgs e)
         {
-            if(sender is NoSelectMenu noSelectMenu)
+            if (sender is NoSelectMenu noSelectMenu)
             {
                 (bool, (List<VertexGTS<VertexUserControl>>, List<VertexGTS<VertexUserControl>>)?) bipartiteList = this.graphGTS!.IsBipartite();
 
@@ -447,7 +445,7 @@ namespace GTS_Controls
 
                 if (bipartiteList.Item2 is not null)
                 {
-                    foreach(VertexGTS<VertexUserControl> vertex in this.graphGTS!.Vertexes.Values)
+                    foreach (VertexGTS<VertexUserControl> vertex in this.graphGTS!.Vertexes.Values)
                     {
                         vertex.Data.Color = Color.Gray;
                     }
@@ -481,7 +479,7 @@ namespace GTS_Controls
         public void On_OpenAdjacencyMatrix()
         {
             (List<int>, List<List<int>>) information = this.graphGTS!.GetAdjacenyMatrix();
-            
+
             int i = 0;
             foreach (int vertexID in information.Item1)
             {

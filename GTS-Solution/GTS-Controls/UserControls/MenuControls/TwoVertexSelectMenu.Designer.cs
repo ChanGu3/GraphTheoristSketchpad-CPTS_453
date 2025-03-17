@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             textBox3 = new TextBox();
-            textBox5 = new TextBox();
+            textBoxIsDirected = new TextBox();
             textBoxWeightValue = new TextBox();
             textBoxWeightTag = new TextBox();
             comboBoxDirected = new ComboBox();
@@ -51,14 +51,14 @@
             // 
             // textBox5
             // 
-            textBox5.BackColor = SystemColors.ActiveBorder;
-            textBox5.BorderStyle = BorderStyle.None;
-            textBox5.Location = new Point(105, 72);
-            textBox5.Name = "textBox5";
-            textBox5.ReadOnly = true;
-            textBox5.Size = new Size(49, 16);
-            textBox5.TabIndex = 24;
-            textBox5.Text = "Directed?";
+            textBoxIsDirected.BackColor = SystemColors.ActiveBorder;
+            textBoxIsDirected.BorderStyle = BorderStyle.None;
+            textBoxIsDirected.Location = new Point(105, 72);
+            textBoxIsDirected.Name = "textBox5";
+            textBoxIsDirected.ReadOnly = true;
+            textBoxIsDirected.Size = new Size(49, 16);
+            textBoxIsDirected.TabIndex = 24;
+            textBoxIsDirected.Text = "Directed?";
             // 
             // textBoxWeightValue
             // 
@@ -103,7 +103,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(textBox5);
+            Controls.Add(textBoxIsDirected);
             Controls.Add(textBoxWeightValue);
             Controls.Add(textBoxWeightTag);
             Controls.Add(comboBoxDirected);
@@ -118,7 +118,7 @@
         #endregion
 
         private TextBox textBox3;
-        private TextBox textBox5;
+        private TextBox textBoxIsDirected;
         private TextBox textBoxWeightValue;
         private TextBox textBoxWeightTag;
         private ComboBox comboBoxDirected;

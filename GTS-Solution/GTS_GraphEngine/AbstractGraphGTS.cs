@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace GTS_GraphEngine
+﻿namespace GTS_GraphEngine
 {
     public abstract class AbstractGraphGTS<Type>
     {
+        private bool isDirectedGraph = false;
+
         /// int = ID of vertex
         /// VertexGTS<Type> = The Vertex
         protected Dictionary<int, VertexGTS<Type>> vertexes = new();
@@ -22,9 +16,29 @@ namespace GTS_GraphEngine
         private int edgeIDCount = 0;
         private Stack<int> edgeIDSRemoved = new Stack<int>();
 
+        public AbstractGraphGTS(bool isDirected = false)
+        {
+            this.isDirectedGraph = isDirected;
+        }
+
         public Dictionary<int, EdgeGTS<Type>> Edges
         {
             get => edges;
+        }
+
+        public int Size
+        {
+            get
+            {
+                if (this.IsDirectedGraph)
+                {
+                    return edges.Count + edges.Where((edge) => !edge.Value.IsDirected).Count();
+                }
+                else
+                {
+                    return edges.Count;
+                }
+            }
         }
 
         public Dictionary<int, VertexGTS<Type>> Vertexes
@@ -32,9 +46,19 @@ namespace GTS_GraphEngine
             get => vertexes;
         }
 
+        public int Order
+        {
+            get => vertexes.Count;
+        }
+
         public int ComponentCount
         {
             get => GetComponentCount();
+        }
+
+        public bool IsDirectedGraph
+        {
+            get => isDirectedGraph;
         }
 
         /// <summary>
@@ -44,7 +68,7 @@ namespace GTS_GraphEngine
         {
             int vertexID = GetNewVertexID();
 
-            vertexes.Add(vertexID, new VertexGTS<Type>(vertexID, data));
+            vertexes.Add(vertexID, new VertexGTS<Type>(vertexID, this.isDirectedGraph, data));
 
             return vertexID;
         }
@@ -58,7 +82,7 @@ namespace GTS_GraphEngine
         {
             bool vertexExists = this.vertexes.ContainsKey(vertexID);
 
-            if (vertexExists) 
+            if (vertexExists)
             {
                 // remove all edges its connected to
                 foreach (EdgeGTS<Type> edge in this.vertexes[vertexID].Edges)
@@ -74,7 +98,7 @@ namespace GTS_GraphEngine
                 }
 
                 this.vertexes.Remove(vertexID);
-                this.vertexIDSRemoved.Push(vertexID); 
+                this.vertexIDSRemoved.Push(vertexID);
             }
 
             return vertexExists;
@@ -162,7 +186,7 @@ namespace GTS_GraphEngine
 
         protected bool DoesVertexExist(int vertexID)
         {
-            return vertexes.TryGetValue(vertexID ,out _);
+            return vertexes.TryGetValue(vertexID, out _);
         }
 
         protected bool DoesEdgeExist(int edgeID)
@@ -173,7 +197,7 @@ namespace GTS_GraphEngine
         private int GetComponentCount()
         {
             Dictionary<int, VertexGTS<Type>> vertexGTs = new Dictionary<int, VertexGTS<Type>>(this.vertexes);
-            
+
             Stack<VertexGTS<Type>> visited = new Stack<VertexGTS<Type>>();
             List<VertexGTS<Type>> visit = new List<VertexGTS<Type>>();
 
@@ -229,7 +253,7 @@ namespace GTS_GraphEngine
             return componenet;
         }
 
-        /*
+
         /// <summary>
         /// 
         /// </summary>
@@ -246,7 +270,7 @@ namespace GTS_GraphEngine
 
             foreach (VertexGTS<Type> vertex in this.vertexes.Values)
             {
-                if(!visited.Contains(vertex))
+                if (!visited.Contains(vertex))
                 {
                     this.GetBridgesHelper(ref time, vertex, ref visited, ref disc, ref low, ref parent, ref bridges);
                 }
@@ -256,14 +280,14 @@ namespace GTS_GraphEngine
             return bridges;
         }
 
-        private void GetBridgesHelper(ref int time, VertexGTS<Type> currentVertex, ref List<VertexGTS<Type>> visited, ref Dictionary<VertexGTS<Type>, int> disc, ref Dictionary<VertexGTS<Type>, int> low, ref  Dictionary<VertexGTS<Type>, VertexGTS<Type>> parent, ref List<EdgeGTS<Type>> bridges)
+        private void GetBridgesHelper(ref int time, VertexGTS<Type> currentVertex, ref List<VertexGTS<Type>> visited, ref Dictionary<VertexGTS<Type>, int> disc, ref Dictionary<VertexGTS<Type>, int> low, ref Dictionary<VertexGTS<Type>, VertexGTS<Type>> parent, ref List<EdgeGTS<Type>> bridges)
         {
             if (!visited.Contains(currentVertex))
             {
                 visited.Add(currentVertex);
             }
 
-            if(!disc.ContainsKey(currentVertex) && !low.ContainsKey(currentVertex))
+            if (!disc.ContainsKey(currentVertex) && !low.ContainsKey(currentVertex))
             {
                 disc.Add(currentVertex, time);
                 low.Add(currentVertex, time);
@@ -275,10 +299,10 @@ namespace GTS_GraphEngine
             }
             time++;
 
-            foreach(EdgeGTS<Type> edge in currentVertex.NeighborsOut.Keys)
+            foreach (EdgeGTS<Type> edge in currentVertex.NeighborsOut.Keys)
             {
-                if(edge.VertexFrom != edge.VertexTo)
-                { 
+                if (edge.VertexFrom != edge.VertexTo)
+                {
                     // fixing edge with both directions
                     VertexGTS<Type> trueNeighbor;
                     if (edge.VertexTo == currentVertex)
@@ -294,7 +318,7 @@ namespace GTS_GraphEngine
 
 
 
-                    if(!visited.Contains(trueNeighbor))
+                    if (!visited.Contains(trueNeighbor))
                     {
                         if (!parent.ContainsKey(currentVertex))
                         {
@@ -316,20 +340,19 @@ namespace GTS_GraphEngine
                         // if its greater that means the time wasn't updated meaning this vertex isn't part of the SCC of currentvertex.
                         if (low[trueNeighbor] > disc[currentVertex])
                         {
-                            if(currentVertex.NeighborsOut.Keys.Where((key) => key.VertexTo == trueNeighbor).Count() == 1)
+                            if (currentVertex.NeighborsOut.Keys.Where((key) => key.VertexTo == trueNeighbor).Count() == 1)
                             {
                                 bridges.Add(edge);
                             }
                         }
                     }
-                    else if(trueNeighbor != currentVertexParent) // When the neighbor checking is not previous recursion currentvertex and its been checked previously using parents must be part of the same SCC
+                    else if (trueNeighbor != currentVertexParent) // When the neighbor checking is not previous recursion currentvertex and its been checked previously using parents must be part of the same SCC
                     {
                         low[currentVertex] = Math.Min(low[currentVertex], disc[trueNeighbor]);
                     }
                 }
             }
         }
-        */
 
         /// <summary>
         /// 
@@ -339,24 +362,37 @@ namespace GTS_GraphEngine
         {
             List<EdgeGTS<Type>> bridges = new();
             int originalComponentCount = this.GetComponentCount();
-            
-            foreach(EdgeGTS<Type> edge in this.edges.Values.ToList())
-            { 
-                if(edge.VertexFrom != edge.VertexTo && edge.IsDirected)
+
+            foreach (EdgeGTS<Type> edge in this.edges.Values.ToList())
+            {
+                int vertexA = edge.VertexFrom.VertexID;
+                int vertexB = edge.VertexTo.VertexID;
+                bool isDirected = edge.IsDirected;
+                int weight = edge.Weight;
+
+                bool checkEdge = true;
+
+                if (edge.VertexFrom != edge.VertexTo)
                 {
-                    int vertexA = edge.VertexFrom.VertexID;
-                    int vertexB = edge.VertexTo.VertexID;
-                    bool isDirected = edge.IsDirected;
-                    int weight = edge.Weight;
-
-                    this.RemoveEdge(edge.EdgeID);
-
-                    if (originalComponentCount < this.GetComponentCount())
+                    if (this.IsDirectedGraph)
                     {
-                        bridges.Add(edge);
+                        if (!edge.IsDirected)
+                        {
+                            checkEdge = false;
+                        }
                     }
 
-                    this.AddEdge(vertexA, vertexB,isDirected, weight);
+                    if (checkEdge)
+                    {
+                        this.RemoveEdge(edge.EdgeID);
+
+                        if (originalComponentCount < this.GetComponentCount())
+                        {
+                            bridges.Add(edge);
+                        }
+
+                        this.AddEdge(vertexA, vertexB, isDirected, weight);
+                    }
                 }
             }
 
@@ -393,11 +429,11 @@ namespace GTS_GraphEngine
                 visit.RemoveAt(0);
 
                 // add all vertexes not visited and not in visit 
-                foreach (EdgeGTS<Type> edge in this.vertexes[vertexVisiting.VertexID].NeighborsOut.Keys)
+                foreach (EdgeGTS<Type> edge in this.vertexes[vertexVisiting.VertexID].Edges)
                 {
-                    
+
                     VertexGTS<Type> vertexTo;
-                    
+
                     // When edge is not directed this means a vertex as VertexTo in edge is also a VertexFrom in the same edge object
                     // same with vertexFrom is also a vertexTo so we need to check the opposite if vertexVisiting is a vertexTo.
                     if (vertexVisiting == edge.VertexTo)
@@ -409,7 +445,7 @@ namespace GTS_GraphEngine
                         vertexTo = edge.VertexTo;
                     }
 
-                    if (!visited.Contains(vertexTo) && !visited.Contains(vertexTo))
+                    if (!visited.Contains(vertexTo))
                     {
                         visit.Add(vertexTo);
                         vertexGTs.Remove(vertexTo.VertexID);
@@ -418,7 +454,7 @@ namespace GTS_GraphEngine
                         {
                             if (!visited.Contains(vertexTo))
                             {
-                                if(partiteSet1.Contains(vertexTo))
+                                if (partiteSet1.Contains(vertexTo))
                                 {
                                     return (false, (partiteSet1, partiteSet2));
                                 }

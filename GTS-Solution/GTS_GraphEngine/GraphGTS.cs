@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GTS_GraphEngine
+﻿namespace GTS_GraphEngine
 {
     public class GraphGTS<Type> : AbstractGraphGTS<Type>
     {
+        public GraphGTS(bool isDirected) : base(isDirected)
+        {
+        }
+
+
         /// <summary>
         /// adds a edge of a loop onto the vertex.
         /// </summary>
@@ -15,7 +14,7 @@ namespace GTS_GraphEngine
         /// <param name="isDirected"> true makes a directed edge. </param>
         /// <returns> edge ID created. </returns>
         /// <exception cref="Exception"> if trying to add an edge to a vertex that doesn't exist. </exception>
-        public override int AddLoop(int vertexID, bool isDirected, int weight = 1) 
+        public override int AddLoop(int vertexID, bool isDirected, int weight = 1)
         {
             if (!this.DoesVertexExist(vertexID)) { throw new Exception($"Vertex (vertexID: {vertexID}) Does Not Exist"); }
 
@@ -49,7 +48,7 @@ namespace GTS_GraphEngine
             EdgeGTS<Type> edge = new EdgeGTS<Type>(edgeID, vertexes[vertexID_A], vertexes[vertexID_B], isDirected, weight: 1);
             this.edges.Add(edgeID, edge);
 
-            if (isDirected) 
+            if (isDirected)
             {
                 vertexes[vertexID_A].AddNeighborEdgeOut(edge, vertexes[vertexID_B]);
                 vertexes[vertexID_B].AddNeighborEdgeIn(edge, vertexes[vertexID_A]);

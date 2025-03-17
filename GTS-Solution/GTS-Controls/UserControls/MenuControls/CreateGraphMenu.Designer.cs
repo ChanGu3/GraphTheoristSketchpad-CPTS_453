@@ -31,6 +31,8 @@
             textBox1 = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            textBox5 = new TextBox();
+            comboBoxDirected = new ComboBox();
             SuspendLayout();
             // 
             // textBox1
@@ -67,10 +69,33 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += WeightedGraph_Click;
             // 
+            // textBox5
+            // 
+            textBox5.BackColor = SystemColors.ActiveBorder;
+            textBox5.BorderStyle = BorderStyle.None;
+            textBox5.Location = new Point(54, 87);
+            textBox5.Name = "textBox5";
+            textBox5.ReadOnly = true;
+            textBox5.Size = new Size(49, 16);
+            textBox5.TabIndex = 21;
+            textBox5.Text = "Directed?";
+            // 
+            // comboBoxDirected
+            // 
+            comboBoxDirected.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxDirected.FormattingEnabled = true;
+            comboBoxDirected.Items.AddRange(new object[] { "True", "False" });
+            comboBoxDirected.Location = new Point(109, 84);
+            comboBoxDirected.Name = "comboBoxDirected";
+            comboBoxDirected.Size = new Size(79, 23);
+            comboBoxDirected.TabIndex = 20;
+            // 
             // CreateGraphMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(textBox5);
+            Controls.Add(comboBoxDirected);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox1);
@@ -85,5 +110,7 @@
         private TextBox textBox1;
         private Button button1;
         private Button button2;
+        private TextBox textBox5;
+        private ComboBox comboBoxDirected;
     }
 }

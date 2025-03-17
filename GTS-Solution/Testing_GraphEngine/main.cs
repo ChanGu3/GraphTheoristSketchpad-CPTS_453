@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-using GTS_GraphEngine;
+﻿using GTS_GraphEngine;
 
 namespace Testing_GraphEngine
 {
@@ -16,7 +7,7 @@ namespace Testing_GraphEngine
         static void Main(string[] args)
         {
 
-            GraphGTSWeighted<string> graphGTS = new GraphGTSWeighted<string>();
+            GraphGTSWeighted<string> graphGTS = new GraphGTSWeighted<string>(isDirected: true);
 
             int v1 = graphGTS.AddVertex();
             int v2 = graphGTS.AddVertex();
@@ -56,12 +47,12 @@ namespace Testing_GraphEngine
 
             Console.WriteLine($"Bi-Partite?: {partiteSets.Item1}");
 
-            foreach(EdgeGTS<string> edge in graphGTS.GetBridges())
+            foreach (EdgeGTS<string> edge in graphGTS.GetBridges())
             {
                 Console.WriteLine($"BridgeID: {edge.EdgeID}");
             }
 
-            
+
 
             Print2DArray(graphGTS.GetAdjacenyMatrix().Item2);
 
@@ -152,9 +143,9 @@ namespace Testing_GraphEngine
 
         public static void Print2DArray(List<List<int>> array2D)
         {
-            for(int i = 0; i < array2D.Count; i++)
+            for (int i = 0; i < array2D.Count; i++)
             {
-                for(int j = 0; j < array2D[i].Count; j++)
+                for (int j = 0; j < array2D[i].Count; j++)
                 {
                     Console.Write($" {array2D[i][j]} ");
                 }

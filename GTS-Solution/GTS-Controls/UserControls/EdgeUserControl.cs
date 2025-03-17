@@ -1,22 +1,6 @@
-﻿using GTS_UserInput;
-using Microsoft.VisualBasic.Devices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
+﻿using System.ComponentModel;
 using System.Drawing.Drawing2D;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Numerics;
-using System.Reflection.Metadata;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GTS_Controls
 {
@@ -202,8 +186,8 @@ namespace GTS_Controls
         {
             // Scaling
             float currentDistance = PointDistance(currentStartPoint, currentEndPoint);
-           
-            if(this.startPoint != PointF.Empty && this.endPoint != PointF.Empty)
+
+            if (this.startPoint != PointF.Empty && this.endPoint != PointF.Empty)
             {
                 if (currentDistance > 0)
                 {
@@ -296,7 +280,7 @@ namespace GTS_Controls
             Point tip = Point.Empty;
             (PointF, PointF) pointPair = (PointF.Empty, PointF.Empty);
             if (isDirected)
-            { 
+            {
                 // Arrow Point
                 tip = BezierPoint(0.5f, this.startPoint, this.control1, this.control2, this.endPoint);
                 pointPair = CalculateArrowHeadPoints(tip, 17, GetDirectionInRadians(this.startPoint, this.endPoint));
@@ -308,7 +292,7 @@ namespace GTS_Controls
             if (isHighlighted)
             {
                 // Line of Edge
-                Pen penHighlight = new Pen(Color.White, this.lineWidth/2);
+                Pen penHighlight = new Pen(Color.White, this.lineWidth / 2);
                 graphics.DrawBezier(penHighlight, startPoint, this.Control1, this.Control2, endPoint);
 
                 if (isDirected)
@@ -349,8 +333,8 @@ namespace GTS_Controls
                 tip.X - (int)(length * Math.Cos(tipAngle - Math.PI / 6)),
                 tip.Y - (int)(length * Math.Sin(tipAngle - Math.PI / 6))
             );
-            
-            return (p1,p2);
+
+            return (p1, p2);
         }
 
         private static double GetDirectionInRadians(PointF From, PointF To)
@@ -370,7 +354,7 @@ namespace GTS_Controls
 
             this.label.Parent = this.Parent;
             Point middleOfEdge = this.MiddleOfEdge;
-            this.label.Location = new Point(middleOfEdge.X + 5, middleOfEdge.Y - 5);
+            this.label.Location = new Point(middleOfEdge.X, middleOfEdge.Y);
             this.label.Name = $"label{label}";
 
             this.Parent?.Controls.Add(this.label);
@@ -385,7 +369,8 @@ namespace GTS_Controls
             // Apply the text path as the region
             this.label.Region = new Region(path);
             this.label.Paint +=
-            (sender, e) => {
+            (sender, e) =>
+            {
                 e.Graphics.FillPath(new SolidBrush(Color.White), path);
             };
 

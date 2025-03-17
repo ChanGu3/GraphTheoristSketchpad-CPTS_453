@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GTS_GraphEngine
+﻿namespace GTS_GraphEngine
 {
     public class VertexGTS<Type> //: IEquatable<VertexGTS<Type>>
     {
+        private bool isDirectedGraph;
+
         private int vertexID;
 
         Type data;
@@ -26,10 +22,12 @@ namespace GTS_GraphEngine
         /// Type = Vertex Name
         private Dictionary<EdgeGTS<Type>, VertexGTS<Type>> neighborsOut = new();
 
-        public VertexGTS(int vertexID, Type data = default!) 
-        { 
+        public VertexGTS(int vertexID, bool isDirectedGraph, Type data = default!)
+        {
             this.data = data;
             this.vertexID = vertexID;
+            this.isDirectedGraph = isDirectedGraph;
+
         }
 
         public int VertexID
@@ -45,7 +43,35 @@ namespace GTS_GraphEngine
 
         public int DegreeCount
         {
-            get => this.neighborsIn.Count() + neighborsOut.Count();
+            get
+            {
+                int degreeCount = 0;
+
+                foreach (EdgeGTS<Type> edge in this.NeighborsOut.Keys.Union(this.NeighborsIn.Keys))
+                {
+                    if (edge.VertexTo == edge.VertexFrom)
+                    {
+                        degreeCount += 2;
+                    }
+                    else
+                    {
+                        if (edge.IsDirected)
+                        {
+                            degreeCount++;
+                        }
+                        else
+                        {
+                            if (isDirectedGraph)
+                            {
+                                degreeCount++;
+                            }
+                            degreeCount++;
+                        }
+                    }
+                }
+
+                return degreeCount;
+            }
         }
 
         public Dictionary<EdgeGTS<Type>, VertexGTS<Type>> NeighborsIn
@@ -82,7 +108,7 @@ namespace GTS_GraphEngine
             neighborsOut.Add(edge, vertexTo);
         }
 
-        public void RemoveNeighborEdgeIn(EdgeGTS<Type> edge) 
+        public void RemoveNeighborEdgeIn(EdgeGTS<Type> edge)
         {
             neighborsIn.Remove(edge);
         }

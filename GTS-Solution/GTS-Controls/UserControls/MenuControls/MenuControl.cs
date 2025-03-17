@@ -1,22 +1,12 @@
 ﻿using GTS_Controls.UserControls.MenuControls;
 using GTS_GraphEngine;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GTS_Controls.UserControls
 {
     public partial class MenuControl : UserControl
     {
         #region CreateGraphMenuVariables
-        public event Action<string>? CreateGraphClicked;
+        public event Action<string, bool>? CreateGraphClicked;
         public event EventHandler? ResetGraph;
         private CreateGraphMenu createGraphControl = new();
         #endregion
@@ -115,14 +105,26 @@ namespace GTS_Controls.UserControls
         #endregion
 
         #region CreateGraphMenu
-        private void OnCreateGraphClicked(string graphName)
+        private void OnCreateGraphClicked(string graphName, bool isDirected)
         {
             this.button1.Enabled = true;
             this.button1.Show();
             HideOnGroupBoxMain(createGraphControl);
             ShowOnGroupBoxMain(noSelectMenu);
 
-            if(graphName == "graph")
+
+            if (isDirected)
+            {
+                this.vertexSelectMenu.ActivateIsDirected();
+                this.twoVertexSelectMenu.ActivateIsDirected();
+            }
+            else
+            {
+                this.vertexSelectMenu.DeactivateIsDirected();
+                this.twoVertexSelectMenu.DeactivateIsDirected();
+            }
+
+            if (graphName == "graph")
             {
                 this.vertexSelectMenu.DeactivateWeightInput();
                 this.vertexSelectMenu.DeactivateShortestPathButton();
@@ -138,7 +140,7 @@ namespace GTS_Controls.UserControls
             }
 
 
-            CreateGraphClicked?.Invoke(graphName);
+            CreateGraphClicked?.Invoke(graphName, isDirected);
         }
 
         private void OnResetGraphClicked(object? sender, EventArgs e)
@@ -216,7 +218,7 @@ namespace GTS_Controls.UserControls
         private void On_RemoveVertex()
         {
             RemoveVertex?.Invoke();
-            
+
         }
 
         private void On_VertexColorChange(Color color)

@@ -38,7 +38,7 @@
             button2 = new Button();
             textBoxDegreeCount = new TextBox();
             buttonOpenShortestPath = new Button();
-            textBox5 = new TextBox();
+            textBoxIsDirected = new TextBox();
             SuspendLayout();
             // 
             // textBox3
@@ -142,20 +142,20 @@
             // 
             // textBox5
             // 
-            textBox5.BackColor = SystemColors.ActiveBorder;
-            textBox5.BorderStyle = BorderStyle.None;
-            textBox5.Location = new Point(104, 178);
-            textBox5.Name = "textBox5";
-            textBox5.ReadOnly = true;
-            textBox5.Size = new Size(49, 16);
-            textBox5.TabIndex = 19;
-            textBox5.Text = "Directed?";
+            textBoxIsDirected.BackColor = SystemColors.ActiveBorder;
+            textBoxIsDirected.BorderStyle = BorderStyle.None;
+            textBoxIsDirected.Location = new Point(104, 178);
+            textBoxIsDirected.Name = "textBox5";
+            textBoxIsDirected.ReadOnly = true;
+            textBoxIsDirected.Size = new Size(49, 16);
+            textBoxIsDirected.TabIndex = 19;
+            textBoxIsDirected.Text = "Directed?";
             // 
             // VertexSelectMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(textBox5);
+            Controls.Add(textBoxIsDirected);
             Controls.Add(buttonOpenShortestPath);
             Controls.Add(textBoxDegreeCount);
             Controls.Add(button2);
@@ -184,6 +184,6 @@
         private Button button2;
         private TextBox textBoxDegreeCount;
         private Button buttonOpenShortestPath;
-        private TextBox textBox5;
+        private TextBox textBoxIsDirected;
     }
 }

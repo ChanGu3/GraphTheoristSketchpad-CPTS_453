@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GTS_GraphEngine
+﻿namespace GTS_GraphEngine
 {
     public class GraphGTSWeighted<Type> : AbstractGraphGTS<Type>
     {
+        public GraphGTSWeighted(bool isDirected) : base(isDirected)
+        {
+        }
+
         /// <summary>
         /// adds a edge of a loop onto the vertex.
         /// </summary>
@@ -78,8 +76,8 @@ namespace GTS_GraphEngine
 
             foreach (VertexGTS<Type> vertex in this.vertexes.Values)
             {
-                if(vertex.VertexID != vertexID)
-                { 
+                if (vertex.VertexID != vertexID)
+                {
                     shortestPaths.Add(vertex, (null, float.PositiveInfinity));
                 }
             }
@@ -93,7 +91,7 @@ namespace GTS_GraphEngine
             {
                 int vertexIDInVisit = 0;
                 float smallestWeightDistance = float.PositiveInfinity;
-                foreach(VertexGTS<Type> vertex in visit)
+                foreach (VertexGTS<Type> vertex in visit)
                 {
                     if (shortestPaths[vertex].Item2 < smallestWeightDistance)
                     {
@@ -120,7 +118,7 @@ namespace GTS_GraphEngine
                                 }
                                 else
                                 {
-                                    if(shortestPaths[vertexVisiting].Item2 + edge.Weight < shortestPaths[edge.VertexTo].Item2)
+                                    if (shortestPaths[vertexVisiting].Item2 + edge.Weight < shortestPaths[edge.VertexTo].Item2)
                                     {
                                         shortestPaths[edge.VertexTo] = (vertexVisiting, shortestPaths[vertexVisiting].Item2 + edge.Weight);
                                     }

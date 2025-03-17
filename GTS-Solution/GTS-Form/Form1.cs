@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using System.Drawing;
-using System.Security.Policy;
 using GTS_Controls;
 using GTS_GraphEngine;
 using GTS_UserInput;

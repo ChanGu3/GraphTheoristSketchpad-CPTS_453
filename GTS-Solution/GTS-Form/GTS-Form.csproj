@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GTS-Controls\GTS-Controls.csproj" />
     <ProjectReference Include="..\GTS_GraphEngine\GTS_GraphEngine.csproj" />
   </ItemGroup>
 
