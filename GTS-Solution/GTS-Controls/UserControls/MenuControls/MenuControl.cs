@@ -17,6 +17,8 @@ namespace GTS_Controls.UserControls
         public event EventHandler? CheckBiPartiteness;
         public event Action? ResetObjectColors;
         public event Action? OpenAdjMatrix;
+        public event Action<bool>? VertexNameVis;
+        public event Action<bool>? EdgeWeightVis;
         NoSelectMenu noSelectMenu = new();
         #endregion
 
@@ -25,6 +27,7 @@ namespace GTS_Controls.UserControls
         public event Action<bool, int>? AddLoop;
         public event Action? RemoveVertex;
         public event Action? OpenShortestPath;
+        public event Action<string>? ChangeVertexName;
         VertexSelectMenu vertexSelectMenu = new();
         #endregion
 
@@ -53,6 +56,8 @@ namespace GTS_Controls.UserControls
             this.noSelectMenu.CheckBiPartiteness += On_CheckBiPartiteness;
             this.noSelectMenu.ResetObjectColors += On_ResetObjectColors;
             this.noSelectMenu.OpenAdjMatrix += On_OpenAdjacencyMatrix;
+            this.noSelectMenu.VertexNameVis += On_VertexNameVisibilityOption;
+            this.noSelectMenu.EdgeWeightVis += On_EdgeWeightVisibilityOption;
             InitializeOnGroupBoxMain(noSelectMenu);
             HideOnGroupBoxMain(noSelectMenu);
 
@@ -61,6 +66,7 @@ namespace GTS_Controls.UserControls
             this.vertexSelectMenu.RemoveVertex += On_RemoveVertex;
             this.vertexSelectMenu.ColorChanged += On_VertexColorChange;
             this.vertexSelectMenu.OpenShortestPath += On_OpenShortestPath;
+            this.vertexSelectMenu.ChangeVertexName += On_ChangeVertexName;
             InitializeOnGroupBoxMain(vertexSelectMenu);
             HideOnGroupBoxMain(vertexSelectMenu);
 
@@ -130,6 +136,7 @@ namespace GTS_Controls.UserControls
                 this.vertexSelectMenu.DeactivateShortestPathButton();
                 this.twoVertexSelectMenu.DeactivateWeightInput();
                 this.edgeSelectMenu.DeactivateWeightVisual();
+                this.noSelectMenu.DeactivateEdgeWeightVisibility();
             }
             else
             {
@@ -137,6 +144,7 @@ namespace GTS_Controls.UserControls
                 this.vertexSelectMenu.ActivateShortestPathButton();
                 this.twoVertexSelectMenu.ActivateWeightInput();
                 this.edgeSelectMenu.ActivateWeightVisual();
+                this.noSelectMenu.ActivateEdgeWeightVisibility();
             }
 
 
@@ -176,7 +184,7 @@ namespace GTS_Controls.UserControls
             }
             else if (selectedItems.VertexUserControls?.Count == 1)
             {
-
+                vertexSelectMenu.VertexName = selectedItems.VertexUserControls.Peek().Name;
                 vertexSelectMenu.VertexColor = selectedItems.VertexUserControls.Peek().Color;
                 vertexSelectMenu.DegreeCount = graph!.Vertexes[selectedItems.VertexUserControls.Peek().VertexID].DegreeCount;
                 ShowOnGroupBoxMain(vertexSelectMenu);
@@ -207,6 +215,16 @@ namespace GTS_Controls.UserControls
         {
             OpenAdjMatrix?.Invoke();
         }
+
+        private void On_VertexNameVisibilityOption(bool isShowingName)
+        {
+            VertexNameVis?.Invoke(isShowingName);
+        }
+
+        private void On_EdgeWeightVisibilityOption(bool isShowingWeight)
+        {
+            EdgeWeightVis?.Invoke(isShowingWeight);
+        }
         #endregion
 
         #region VertexSelectMenu
@@ -228,6 +246,11 @@ namespace GTS_Controls.UserControls
         private void On_OpenShortestPath()
         {
             this.OpenShortestPath?.Invoke();
+        }
+
+        private void On_ChangeVertexName(string newVertexName)
+        {
+            this.ChangeVertexName?.Invoke(newVertexName);
         }
         #endregion
 

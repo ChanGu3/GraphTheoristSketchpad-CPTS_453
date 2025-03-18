@@ -29,6 +29,7 @@ namespace GTS_Form
             this.menuControl1.AddLoop += this.graphDisplay1.On_AddLoop;
             this.menuControl1.RemoveVertex += this.graphDisplay1.On_RemoveVertex;
             this.menuControl1.VertexColorChanged += this.graphDisplay1.On_VertexColorChange;
+            this.menuControl1.ChangeVertexName += this.graphDisplay1.On_OpenChangeVertexName;
 
             // EdgeSelectMenu
             this.menuControl1.RemoveEdge += this.graphDisplay1.On_RemoveEdge;
@@ -39,6 +40,9 @@ namespace GTS_Form
             this.menuControl1.CheckBiPartiteness += this.graphDisplay1.On_CheckBiPartiteness;
             this.menuControl1.ResetObjectColors += this.graphDisplay1.On_ResetObjectColors;
             this.menuControl1.OpenAdjMatrix += this.graphDisplay1.On_OpenAdjacencyMatrix;
+            this.menuControl1.VertexNameVis += this.graphDisplay1.On_VertexNameVisibilityOption;
+            this.menuControl1.EdgeWeightVis += this.graphDisplay1.On_EdgeWeightVisibilityOption;
+
 
             // Forms Specific
             this.graphDisplay1.OpenAdjMatrix += On_OpenAdjacencyMatrix;

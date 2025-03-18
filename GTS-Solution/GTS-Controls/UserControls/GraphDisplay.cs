@@ -21,6 +21,8 @@ namespace GTS_Controls
         ///
         Dictionary<int, EdgeUserControl> controlEdges = new();
 
+        private bool isShowingName = false;
+        private bool isShowingWeight = false;
         // private bool isSpaceDown = false;
 
         public GraphDisplay()
@@ -35,18 +37,23 @@ namespace GTS_Controls
         {
             // setup graph link to control
             int vertexID = this.graphGTS!.AddVertex();
-            VertexUserControl nodeControl = new VertexUserControl(vertexID);
+            VertexUserControl nodeControl = new VertexUserControl(vertexID, this.panelGraph);
             this.graphGTS.Vertexes[vertexID].Data = nodeControl;
             this.graphGTS.Vertexes[vertexID].Data.Move += UpdatePanelOnGraphInteraction;
             this.graphGTS.Vertexes[vertexID].Data.MouseDown += OnSelectItem_Down;
 
-            nodeControl.Parent = this.panelGraph;
             nodeControl.Location = spawnLocation;
-            nodeControl.Name = $"nodeControl{vertexID}";
 
-            this.panelGraph.Controls.Add(nodeControl);
-            nodeControl.BringToFront();
+            if (this.isShowingName)
+            {
+                nodeControl.ShowNameLabel();
+            }
+            else
+            {
+                nodeControl.HideNameLabel();
+            }
 
+            UpdatePanelOnGraphInteraction(this, new EventArgs());
             SetComponents?.Invoke(this.graphGTS!.ComponentCount);
             this.SetOrder?.Invoke(this.graphGTS!.Order);
             return nodeControl;
@@ -55,15 +62,9 @@ namespace GTS_Controls
         public EdgeUserControl CreateLoop(Control Parent, int vertexID, bool isDirected, int weight)
         {
             int edgeID = this.graphGTS!.AddLoop(vertexID, isDirected, weight);
-            EdgeUserControl edgeUserControl = new EdgeUserControl(edgeID, true, isDirected);
+            EdgeUserControl edgeUserControl = new EdgeUserControl(edgeID, true, isDirected, weight, this.panelGraph);
             edgeUserControl.MouseDown += OnSelectItem_Down;
             this.controlEdges.Add(edgeID, edgeUserControl);
-            edgeUserControl.Parent = Parent;
-            edgeUserControl.Location = Parent.Location;
-            edgeUserControl.Size = Parent.Size;
-            edgeUserControl.Name = $"Edge: {vertexID}->{vertexID}";
-            Parent.Controls.Add(edgeUserControl);
-            // lineUserControl.BringToFront();
 
             VertexUserControl vertex = this.graphGTS.Vertexes[vertexID].Data;
 
@@ -71,29 +72,33 @@ namespace GTS_Controls
 
             edgeUserControl.CurveHeight = 4 * (edgeCount + 1);
 
+            if (this.isShowingWeight)
+            {
+                edgeUserControl.ShowWeightLabel();
+            }
+            else
+            {
+                edgeUserControl.HideWeightLabel();
+            }
+
+
             edgeUserControl.UpdateLinePoints(
                 new Point(vertex.CenterOrigin.X - (vertex.CircleRadius / 2), vertex.CenterOrigin.Y),
                 new Point(vertex.CenterOrigin.X + (vertex.CircleRadius / 2), vertex.CenterOrigin.Y));
-
             UpdatePanelOnGraphInteraction(this, new EventArgs());
 
             this.SetSize?.Invoke(this.graphGTS!.Size);
             SetComponents?.Invoke(this.graphGTS!.ComponentCount);
+
             return edgeUserControl;
         }
 
         public EdgeUserControl CreateEdge(Control Parent, int startID, int endID, bool isDirected, int weight)
         {
             int edgeID = this.graphGTS!.AddEdge(startID, endID, isDirected, weight);
-            EdgeUserControl edgeUserControl = new EdgeUserControl(edgeID, false, isDirected);
+            EdgeUserControl edgeUserControl = new EdgeUserControl(edgeID, false, isDirected, weight, this.panelGraph);
             edgeUserControl.MouseDown += OnSelectItem_Down;
             this.controlEdges.Add(edgeID, edgeUserControl);
-            edgeUserControl.Parent = Parent;
-            // lineUserControl.Location = Parent.Location;
-            edgeUserControl.Size = Parent.Size;
-            edgeUserControl.Name = $"Edge: {startID}->{endID}";
-            Parent.Controls.Add(edgeUserControl);
-            // lineUserControl.BringToFront();
 
             int edgeCount = this.graphGTS.EdgeCountBetweenVertices(startID, endID);
 
@@ -118,11 +123,21 @@ namespace GTS_Controls
                 }
             }
 
+            if (this.isShowingWeight)
+            {
+                edgeUserControl.ShowWeightLabel();
+            }
+            else
+            {
+                edgeUserControl.HideWeightLabel();
+            }
+
             edgeUserControl.UpdateLinePoints(this.graphGTS.Vertexes[startID].Data.CenterOrigin, this.graphGTS.Vertexes[endID].Data.CenterOrigin);
             UpdatePanelOnGraphInteraction(this, new EventArgs());
 
             this.SetSize?.Invoke(this.graphGTS!.Size);
             this.SetComponents?.Invoke(this.graphGTS!.ComponentCount);
+
             return edgeUserControl;
         }
 
@@ -228,13 +243,13 @@ namespace GTS_Controls
                 foreach (EdgeUserControl edge in controlEdges.Values)
                 {
                     this.Controls.Remove(edge);
-                    edge.Dispose();
+                    edge.RemoveFromGraph();
                 }
 
                 foreach (VertexGTS<VertexUserControl> vertex in graphGTS.Vertexes.Values)
                 {
                     this.Controls.Remove(vertex.Data);
-                    vertex.Data.Dispose();
+                    vertex.Data.RemoveFromGraph();
                 }
 
                 SetComponents?.Invoke(0);
@@ -270,9 +285,8 @@ namespace GTS_Controls
             // should have only one vertex here
             int vertexID = this.selectedItems.VertexUserControls!.Dequeue().VertexID;
 
-            this.panelGraph.Controls.Remove(this.graphGTS!.Vertexes[vertexID].Data);
+            this.graphGTS!.Vertexes[vertexID].Data.RemoveFromGraph();
 
-            this.graphGTS.Vertexes[vertexID].Data.Dispose();
             this.graphGTS?.TryRemoveVertex(vertexID);
 
             this.controlEdges = this.controlEdges.Where(
@@ -315,6 +329,11 @@ namespace GTS_Controls
                 int i = 0;
                 foreach (VertexGTS<VertexUserControl> vertex in information.Keys)
                 {
+                    if (vertex.Data.IsShowingName)
+                    {
+                        vertex.Data.HideNameLabel();
+                    }
+
                     if (this.selectedItems.VertexUserControls!.Peek().VertexID == vertex.VertexID)
                     {
                         vertexNameFrom = $"V{i}";
@@ -325,7 +344,7 @@ namespace GTS_Controls
 
                 foreach (EdgeUserControl edge in this.controlEdges.Values)
                 {
-                    edge.AddLabel($"W: {this.graphGTS.Edges[edge.EdgeID].Weight}");
+                    edge.ShowWeightLabel();
                 }
 
                 this.OpenShortestPath?.Invoke(information, vertexNameFrom);
@@ -337,13 +356,29 @@ namespace GTS_Controls
             foreach (VertexGTS<VertexUserControl> vertex in this.graphGTS!.Vertexes.Values)
             {
                 vertex.Data.RemoveLabel();
+                if (vertex.Data.IsShowingName)
+                {
+                    vertex.Data.ShowNameLabel();
+                }
             }
 
             foreach (EdgeUserControl edge in this.controlEdges.Values)
             {
-                edge.RemoveLabel();
+                if (!edge.IsShowingWeight)
+                {
+                    edge.HideWeightLabel();
+                }
             }
         }
+
+        public void On_OpenChangeVertexName(string newVertexName)
+        {
+            this.selectedItems.VertexUserControls!.Peek().Name = newVertexName;
+            this.selectedItems.VertexUserControls!.Peek().ResetNameLabelRegion();
+            this.UpdatePanelOnGraphInteraction(this, new EventArgs());
+            return;
+        }
+
         #endregion
 
         #region EdgeSelectMenu
@@ -351,8 +386,7 @@ namespace GTS_Controls
         {
             int edgeID = this.selectedItems.EdgeUserControl!.EdgeID;
 
-            this.panelGraph.Controls.Remove(this.selectedItems.EdgeUserControl);
-            this.selectedItems.EdgeUserControl!.Dispose();
+            this.selectedItems.EdgeUserControl!.RemoveFromGraph();
             this.selectedItems.Clear();
 
             int FromVertexID = this.graphGTS!.Edges[edgeID].VertexFrom.VertexID;
@@ -483,6 +517,11 @@ namespace GTS_Controls
             int i = 0;
             foreach (int vertexID in information.Item1)
             {
+                if (this.isShowingName)
+                {
+                    this.graphGTS!.Vertexes[vertexID].Data.HideNameLabel();
+                }
+
                 this.graphGTS!.Vertexes[vertexID].Data.AddLabel($"V{i}");
                 i++;
             }
@@ -495,8 +534,49 @@ namespace GTS_Controls
             foreach (VertexGTS<VertexUserControl> vertex in this.graphGTS!.Vertexes.Values)
             {
                 vertex.Data.RemoveLabel();
+
+                if (this.isShowingName)
+                {
+                    vertex.Data.ShowNameLabel();
+                }
             }
 
+        }
+
+        public void On_VertexNameVisibilityOption(bool isShowingName)
+        {
+            this.isShowingName = isShowingName;
+
+            foreach (VertexGTS<VertexUserControl> vertex in this.graphGTS!.Vertexes.Values)
+            {
+                if (isShowingName == true)
+                {
+                    vertex.Data.ShowNameLabel();
+                }
+                else
+                {
+                    vertex.Data.HideNameLabel();
+                }
+            }
+            UpdatePanelOnGraphInteraction(this, new EventArgs());
+        }
+
+        public void On_EdgeWeightVisibilityOption(bool isShowingWeight)
+        {
+            this.isShowingWeight = isShowingWeight;
+
+            foreach (EdgeUserControl edge in this.controlEdges.Values)
+            {
+                if (isShowingWeight == true)
+                {
+                    edge.ShowWeightLabel();
+                }
+                else
+                {
+                    edge.HideWeightLabel();
+                }
+            }
+            UpdatePanelOnGraphInteraction(this, new EventArgs());
         }
         #endregion
 

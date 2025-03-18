@@ -33,7 +33,6 @@
             BackgroundImageLayout = ImageLayout.None;
             Cursor = Cursors.Hand;
             DoubleBuffered = true;
-            Name = "NodeControl";
             Size = new Size(10, 10);
             Paint += NodeControl_Paint;
             ResumeLayout(false);

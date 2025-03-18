@@ -8,6 +8,7 @@
         public event Action? RemoveVertex;
         public event Action<Color>? ColorChanged;
         public event Action? OpenShortestPath;
+        public event Action<string>? ChangeVertexName;
 
         private int degreeCount = 0;
         public VertexSelectMenu()
@@ -21,6 +22,11 @@
         {
             get => this.panelVertexColor.BackColor;
             set => this.panelVertexColor.BackColor = value;
+        }
+
+        public string VertexName
+        {
+            set => this.textBoxVertexNameChoice.Text = value;
         }
 
         public int DegreeCount
@@ -115,6 +121,11 @@
         private void OpenShortestPath_Click(object sender, EventArgs e)
         {
             this.OpenShortestPath?.Invoke();
+        }
+
+        private void TextBoxVertexNameChoice_TextChanged(object sender, EventArgs e)
+        {
+            this.ChangeVertexName?.Invoke(this.textBoxVertexNameChoice.Text);
         }
     }
 }

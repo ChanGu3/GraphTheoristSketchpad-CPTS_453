@@ -39,6 +39,8 @@
             textBoxDegreeCount = new TextBox();
             buttonOpenShortestPath = new Button();
             textBoxIsDirected = new TextBox();
+            textBoxVertexName = new TextBox();
+            textBoxVertexNameChoice = new TextBox();
             SuspendLayout();
             // 
             // textBox3
@@ -130,31 +132,52 @@
             textBoxDegreeCount.TabIndex = 17;
             textBoxDegreeCount.Text = "Degree: 0";
             // 
-            // button3
+            // buttonOpenShortestPath
             // 
             buttonOpenShortestPath.Location = new Point(65, 256);
-            buttonOpenShortestPath.Name = "button3";
+            buttonOpenShortestPath.Name = "buttonOpenShortestPath";
             buttonOpenShortestPath.Size = new Size(121, 23);
             buttonOpenShortestPath.TabIndex = 18;
             buttonOpenShortestPath.Text = "Open Shortest Path";
             buttonOpenShortestPath.UseVisualStyleBackColor = true;
             buttonOpenShortestPath.Click += OpenShortestPath_Click;
             // 
-            // textBox5
+            // textBoxIsDirected
             // 
             textBoxIsDirected.BackColor = SystemColors.ActiveBorder;
             textBoxIsDirected.BorderStyle = BorderStyle.None;
             textBoxIsDirected.Location = new Point(104, 178);
-            textBoxIsDirected.Name = "textBox5";
+            textBoxIsDirected.Name = "textBoxIsDirected";
             textBoxIsDirected.ReadOnly = true;
             textBoxIsDirected.Size = new Size(49, 16);
             textBoxIsDirected.TabIndex = 19;
             textBoxIsDirected.Text = "Directed?";
             // 
+            // textBoxVertexName
+            // 
+            textBoxVertexName.BackColor = SystemColors.ActiveBorder;
+            textBoxVertexName.BorderStyle = BorderStyle.None;
+            textBoxVertexName.Location = new Point(15, 65);
+            textBoxVertexName.Name = "textBoxVertexName";
+            textBoxVertexName.ReadOnly = true;
+            textBoxVertexName.Size = new Size(83, 16);
+            textBoxVertexName.TabIndex = 20;
+            textBoxVertexName.Text = "Vertex Name:";
+            // 
+            // textBoxVertexNameChoice
+            // 
+            textBoxVertexNameChoice.Location = new Point(107, 62);
+            textBoxVertexNameChoice.Name = "textBoxVertexNameChoice";
+            textBoxVertexNameChoice.Size = new Size(131, 23);
+            textBoxVertexNameChoice.TabIndex = 21;
+            textBoxVertexNameChoice.TextChanged += TextBoxVertexNameChoice_TextChanged;
+            // 
             // VertexSelectMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(textBoxVertexNameChoice);
+            Controls.Add(textBoxVertexName);
             Controls.Add(textBoxIsDirected);
             Controls.Add(buttonOpenShortestPath);
             Controls.Add(textBoxDegreeCount);
@@ -185,5 +208,7 @@
         private TextBox textBoxDegreeCount;
         private Button buttonOpenShortestPath;
         private TextBox textBoxIsDirected;
+        private TextBox textBoxVertexName;
+        private TextBox textBoxVertexNameChoice;
     }
 }

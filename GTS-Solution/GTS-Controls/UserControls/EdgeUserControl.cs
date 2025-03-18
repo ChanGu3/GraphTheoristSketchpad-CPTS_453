@@ -28,21 +28,44 @@ namespace GTS_Controls
         private bool isLoop;
         private bool isHighlighted = false;
         private bool isDirected = false;
-        private Control? label;
-
+        private Control? weightLabel;
+        private Font weightFont = new Font("Arial Black", 20f, FontStyle.Regular, GraphicsUnit.Pixel);
+        bool isShowingWeight = true;
         // add arrow to the path of a region with the bezier (On the middle)
         // for painting use the same arrow on the middle.
 
-        public EdgeUserControl(int edgeID, bool isLoop, bool isDirected) : base()
+        public EdgeUserControl(int edgeID, bool isLoop, bool isDirected, int weight, Control parent) : base()
         {
+            this.Parent = parent;
+            this.Size = parent.Size;
+            this.Name = $"W: {weight}";
+            parent.Controls.Add(this);
+
             this.isLoop = isLoop;
             this.edgeID = edgeID;
             this.isDirected = isDirected;
 
             InitializeComponent();
-
+            this.SetUpControls();
             // this.Region = new Region();
             // this.Region.MakeEmpty();
+        }
+
+        public GraphicsPath WeightFontPath
+        {
+            get
+            {
+                GraphicsPath weightLabelPath = new();
+                Font font = this.weightFont;
+                weightLabelPath.AddString(this.Name, font.FontFamily, (int)font.Style, font.Size, new Point(0, 0), StringFormat.GenericDefault);
+
+                return weightLabelPath;
+            }
+        }
+
+        public bool IsShowingWeight
+        {
+            get => isShowingWeight;
         }
 
         public int EdgeID
@@ -149,6 +172,34 @@ namespace GTS_Controls
 
         #endregion
 
+        private void SetUpControls()
+        {
+
+            /// NameLabel
+            ///
+            this.weightLabel = new DoubleBufferedPanel();
+
+            //this.nameLabel.Text = this.Name;
+            this.weightLabel.ForeColor = Color.White;
+
+            // Apply the text path as the region
+            // nameLabelPath.Widen(new Pen(Color.White, 1));
+            this.weightLabel.Region = new Region(this.WeightFontPath);
+
+            this.weightLabel.Parent = this.Parent;
+            this.weightLabel.Name = $"labelName";
+            this.weightLabel.Paint +=
+                (sender, e) =>
+                {
+                    e.Graphics.FillPath(new SolidBrush(Color.White), this.WeightFontPath);
+                };
+
+
+            this.Parent?.Controls.Add(this.weightLabel);
+            this.weightLabel.Size = this.Parent!.Size;
+
+            this.weightLabel.BringToFront();
+        }
 
         private static float PointDistance(PointF pointStart, PointF pointEnd)
         {
@@ -265,6 +316,11 @@ namespace GTS_Controls
 
                 path.Widen(pen);
                 this.Region = new Region(path);
+
+                if (isShowingWeight)
+                {
+                    this.weightLabel!.Location = this.MiddleOfEdge;
+                }
             }
         }
 
@@ -345,42 +401,25 @@ namespace GTS_Controls
             return Math.Atan2(direction.Y, direction.X);
         }
 
-        public void AddLabel(string label)
+        public void RemoveFromGraph()
         {
-            this.label = new Label();
-            this.label.Text = label;
-            this.label.Font = new Font(this.label.Font.FontFamily, this.label.Font.Size + 8f, this.label.Font.Style);
-            this.label.ForeColor = Color.White;
+            this.Parent?.Controls.Remove(this.weightLabel);
+            this.weightLabel?.Dispose();
 
-            this.label.Parent = this.Parent;
-            Point middleOfEdge = this.MiddleOfEdge;
-            this.label.Location = new Point(middleOfEdge.X, middleOfEdge.Y);
-            this.label.Name = $"label{label}";
-
-            this.Parent?.Controls.Add(this.label);
-
-            //region creation
-            GraphicsPath path = new GraphicsPath();
-            Font font = (this.label as Label)!.Font;
-            path.AddString(label, font.FontFamily, (int)font.Style, font.Size, new Point(0, 0), StringFormat.GenericDefault);
-
-            //path.Widen(new Pen(Color.Black, 1f));
-
-            // Apply the text path as the region
-            this.label.Region = new Region(path);
-            this.label.Paint +=
-            (sender, e) =>
-            {
-                e.Graphics.FillPath(new SolidBrush(Color.White), path);
-            };
-
-            this.label.BringToFront();
+            this.Parent?.Controls.Remove(this);
+            this.Dispose(true);
         }
 
-        public void RemoveLabel()
+        public void ShowWeightLabel()
         {
-            this.Parent?.Controls.Remove(this.label);
-            this.label?.Dispose();
+            this.isShowingWeight = true;
+            this.weightLabel!.Show();
+        }
+
+        public void HideWeightLabel()
+        {
+            this.isShowingWeight = false;
+            this.weightLabel!.Hide();
         }
 
         /*

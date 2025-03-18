@@ -36,6 +36,10 @@
             textBox3 = new TextBox();
             button4 = new Button();
             button5 = new Button();
+            textBoxEdgeWeightsVis = new TextBox();
+            comboBoxEdgeWeightVis = new ComboBox();
+            textBoxVertexNameVis = new TextBox();
+            comboBoxVertexNameVis = new ComboBox();
             SuspendLayout();
             // 
             // button1
@@ -122,10 +126,58 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += ResetObjectColors_Click;
             // 
+            // textBoxEdgeWeightsVis
+            // 
+            textBoxEdgeWeightsVis.BackColor = SystemColors.ActiveBorder;
+            textBoxEdgeWeightsVis.BorderStyle = BorderStyle.None;
+            textBoxEdgeWeightsVis.Location = new Point(15, 428);
+            textBoxEdgeWeightsVis.Name = "textBoxEdgeWeightsVis";
+            textBoxEdgeWeightsVis.ReadOnly = true;
+            textBoxEdgeWeightsVis.Size = new Size(123, 16);
+            textBoxEdgeWeightsVis.TabIndex = 21;
+            textBoxEdgeWeightsVis.Text = "Edge Weights Visibility";
+            // 
+            // comboBoxEdgeWeightVis
+            // 
+            comboBoxEdgeWeightVis.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEdgeWeightVis.FormattingEnabled = true;
+            comboBoxEdgeWeightVis.Items.AddRange(new object[] { "Show", "Hide" });
+            comboBoxEdgeWeightVis.Location = new Point(144, 425);
+            comboBoxEdgeWeightVis.Name = "comboBoxEdgeWeightVis";
+            comboBoxEdgeWeightVis.Size = new Size(79, 23);
+            comboBoxEdgeWeightVis.TabIndex = 20;
+            comboBoxEdgeWeightVis.SelectedIndexChanged += comboBoxEdgeWeightVis_SelectedIndexChanged;
+            // 
+            // textBoxVertexNameVis
+            // 
+            textBoxVertexNameVis.BackColor = SystemColors.ActiveBorder;
+            textBoxVertexNameVis.BorderStyle = BorderStyle.None;
+            textBoxVertexNameVis.Location = new Point(22, 390);
+            textBoxVertexNameVis.Name = "textBoxVertexNameVis";
+            textBoxVertexNameVis.ReadOnly = true;
+            textBoxVertexNameVis.Size = new Size(116, 16);
+            textBoxVertexNameVis.TabIndex = 23;
+            textBoxVertexNameVis.Text = "Vertex Name Visibility";
+            // 
+            // comboBoxVertexNameVis
+            // 
+            comboBoxVertexNameVis.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxVertexNameVis.FormattingEnabled = true;
+            comboBoxVertexNameVis.Items.AddRange(new object[] { "Show", "Hide" });
+            comboBoxVertexNameVis.Location = new Point(144, 387);
+            comboBoxVertexNameVis.Name = "comboBoxVertexNameVis";
+            comboBoxVertexNameVis.Size = new Size(79, 23);
+            comboBoxVertexNameVis.TabIndex = 22;
+            comboBoxVertexNameVis.SelectedIndexChanged += comboBoxVertexNameVis_SelectedIndexChanged;
+            // 
             // NoSelectMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(textBoxVertexNameVis);
+            Controls.Add(comboBoxVertexNameVis);
+            Controls.Add(textBoxEdgeWeightsVis);
+            Controls.Add(comboBoxEdgeWeightVis);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(textBox3);
@@ -150,5 +202,9 @@
         private TextBox textBox3;
         private Button button4;
         private Button button5;
+        private TextBox textBoxEdgeWeightsVis;
+        private ComboBox comboBoxEdgeWeightVis;
+        private TextBox textBoxVertexNameVis;
+        private ComboBox comboBoxVertexNameVis;
     }
 }

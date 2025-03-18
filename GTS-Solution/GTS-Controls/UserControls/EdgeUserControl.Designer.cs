@@ -31,7 +31,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
             DoubleBuffered = true;
-            Name = "LineUserControl";
             Paint += LineUserControl_Paint;
             ResumeLayout(false);
         }
