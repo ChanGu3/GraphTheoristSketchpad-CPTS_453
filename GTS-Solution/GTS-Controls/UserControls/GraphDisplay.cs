@@ -347,7 +347,10 @@ namespace GTS_Controls
                     edge.ShowWeightLabel();
                 }
 
+                this.UpdatePanelOnGraphInteraction(this, new EventArgs());
+
                 this.OpenShortestPath?.Invoke(information, vertexNameFrom);
+
             }
         }
 
@@ -364,7 +367,7 @@ namespace GTS_Controls
 
             foreach (EdgeUserControl edge in this.controlEdges.Values)
             {
-                if (!edge.IsShowingWeight)
+                if (!this.isShowingWeight)
                 {
                     edge.HideWeightLabel();
                 }
